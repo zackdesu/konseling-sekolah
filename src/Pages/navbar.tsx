@@ -6,7 +6,7 @@ const Navbar = () => {
       <h3>
         <Link to={"/"}>{import.meta.env.VITE_PRODUCT_NAME}</Link>
       </h3>
-      <div className="w-1/4 flex justify-between mr-20">
+      <div className="w-1/2 lg:w-1/4 flex justify-between mr-20">
         <Link to={"/"}>Halaman Utama</Link>
         <Link to={"/profil"}>Profil</Link>
         <Link to={"/tentang"}>Tentang</Link>
