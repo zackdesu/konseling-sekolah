@@ -3,6 +3,7 @@ import Navbar from "./Pages/navbar";
 import Home from "./Pages/home";
 import Login from "./Pages/login";
 import Register from "./Pages/register";
+import Profile from "./Pages/profile";
 
 function App() {
   return (
@@ -34,6 +35,15 @@ function App() {
             </>
           }
           path="/register"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Profile />
+            </>
+          }
+          path="/profil"
         />
       </Routes>
     </Router>
