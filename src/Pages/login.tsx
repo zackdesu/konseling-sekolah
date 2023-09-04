@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 
 type Data = {
   username: string;
-  tempatLahir: string;
-  tanggalLahir: Date;
   password: string;
 };
 
@@ -13,8 +11,6 @@ const Login = () => {
     e.preventDefault();
     const data: Data = {
       username: e.currentTarget.username.value,
-      tempatLahir: e.currentTarget.tempatlahir.value,
-      tanggalLahir: e.currentTarget.tanggallahir.value,
       password: e.currentTarget.password.value,
     };
     console.log(data);
@@ -25,7 +21,7 @@ const Login = () => {
       onSubmit={formSubmit}
       className="flex flex-col items-center justify-center h-full w-full"
     >
-      <h2 className="my-8 text-zinc-800">Buat Akun Baru</h2>
+      <h2 className="my-8 text-zinc-800">Masuk ke Akun</h2>
       <label htmlFor="username" className="labelinput">
         Nama Lengkap
       </label>
@@ -33,26 +29,6 @@ const Login = () => {
         type="text"
         id="username"
         name="username"
-        className="userinput"
-        required
-      />
-      <label htmlFor="tempatlahir" className="labelinput">
-        Tempat Lahir
-      </label>
-      <input
-        type="text"
-        id="tempatlahir"
-        name="tempatlahir"
-        className="userinput"
-        required
-      />
-      <label htmlFor="tanggallahir" className="labelinput">
-        Tanggal Lahir
-      </label>
-      <input
-        type="date"
-        id="tanggallahir"
-        name="tanggallahir"
         className="userinput"
         required
       />
@@ -65,8 +41,9 @@ const Login = () => {
         name="password"
         className="userinput"
       />
-      <button className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4">Submit</button>
-
+      <button type="submit" className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4">
+        Submit
+      </button>
       <p className="mt-2">
         Belum punya akun?{" "}
         <Link to={"/register"} className="text-blue-600 underline">
