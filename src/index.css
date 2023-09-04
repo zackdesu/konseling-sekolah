@@ -9,7 +9,7 @@
   }
 
   #root {
-    @apply h-full;
+    @apply h-full pt-16;
   }
 
   h1,
