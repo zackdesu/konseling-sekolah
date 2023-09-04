@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <div className="flex items-center justify-between px-20 py-5 bg-cyan-500 text-zinc-100 fixed z-50 w-full">
+    <div className="flex items-center justify-between px-20 py-5 bg-cyan-500 text-zinc-100 fixed z-50 w-full top-0">
       <h3>
         <Link to={"/"}>{import.meta.env.VITE_PRODUCT_NAME}</Link>
       </h3>
