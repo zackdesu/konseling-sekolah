@@ -44,4 +44,19 @@
   p {
     @apply text-xs md:text-base;
   }
+
+  .normalbutton {
+    @apply text-white px-4 py-2 mx-2 my-2 rounded-xl bg-cyan-500;
+  }
+
+  .invertedbutton {
+    @apply px-4 py-2 mx-2 my-2 rounded-xl border-2 border-cyan-500;
+  }
+
+  .labelinput {
+    @apply text-zinc-700 w-1/2 sm:w-1/3 lg:w-1/4 mb-1;
+  }
+  .userinput {
+    @apply w-1/2 sm:w-1/3 lg:w-1/4 border-2 mb-5 p-1;
+  }
 }
