@@ -1,4 +1,5 @@
 import { FormEvent } from "react";
+import { Link } from "react-router-dom";
 
 type Data = {
   username: string;
@@ -24,6 +25,7 @@ const Login = () => {
       onSubmit={formSubmit}
       className="flex flex-col items-center justify-center h-full w-full"
     >
+      <h2 className="my-8 text-zinc-800">Buat Akun Baru</h2>
       <label htmlFor="username" className="labelinput">
         Nama Lengkap
       </label>
@@ -64,6 +66,13 @@ const Login = () => {
         className="userinput"
       />
       <button className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4">Submit</button>
+
+      <p className="mt-2">
+        Belum punya akun?{" "}
+        <Link to={"/register"} className="text-blue-600 underline">
+          Klik disini!
+        </Link>
+      </p>
     </form>
   );
 };
