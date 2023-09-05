@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 type Data = {
   username: string;
+  realname: string;
   email: string;
   tempatLahir: string;
   tanggalLahir: Date;
@@ -15,6 +16,7 @@ const Register = () => {
     e.preventDefault();
     const data: Data = {
       username: e.currentTarget.username.value,
+      realname: e.currentTarget.realname.value,
       email: e.currentTarget.email.value,
       tempatLahir: e.currentTarget.tempatlahir.value,
       tanggalLahir: e.currentTarget.tanggallahir.value,
@@ -27,11 +29,11 @@ const Register = () => {
   return (
     <form
       onSubmit={formSubmit}
-      className="flex flex-col items-center justify-center w-full"
+      className="flex flex-col items-center justify-center w-full pt-20"
     >
       <h2 className="my-8 text-zinc-800">Buat Akun Baru</h2>
       <label htmlFor="username" className="labelinput">
-        Nama Lengkap
+        Username
       </label>
       <input
         type="text"
@@ -41,7 +43,18 @@ const Register = () => {
         required
         autoComplete="off"
       />
-      <label htmlFor="username" className="labelinput">
+      <label htmlFor="realname" className="labelinput">
+        Nama Lengkap
+      </label>
+      <input
+        type="text"
+        id="realname"
+        name="realname"
+        className="userinput"
+        required
+        autoComplete="off"
+      />
+      <label htmlFor="email" className="labelinput">
         Email
       </label>
       <input
