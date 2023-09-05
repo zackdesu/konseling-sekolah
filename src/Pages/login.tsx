@@ -1,17 +1,24 @@
-import { FormEvent } from "react";
+import { FormEvent, useRef } from "react";
 import { Link } from "react-router-dom";
 
-type Data = {
+interface Data {
   username: string;
   password: string;
-};
+}
 
 const Login = () => {
+  const refUsername = useRef<HTMLInputElement>(null);
+  const refPassword = useRef<HTMLInputElement>(null);
+
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!refUsername.current || !refPassword.current)
+      return console.log("Masukkan data dengan lengkap!");
+
     const data: Data = {
-      username: e.currentTarget.username.value,
-      password: e.currentTarget.password.value,
+      username: refUsername.current?.value,
+      password: refPassword.current?.value,
     };
     console.log(data);
   };
@@ -31,6 +38,7 @@ const Login = () => {
         name="username"
         className="userinput"
         required
+        ref={refUsername}
       />
       <label htmlFor="password" className="labelinput">
         Kata Sandi
@@ -40,6 +48,7 @@ const Login = () => {
         id="password"
         name="password"
         className="userinput"
+        ref={refPassword}
       />
       <button type="submit" className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4">
         Submit

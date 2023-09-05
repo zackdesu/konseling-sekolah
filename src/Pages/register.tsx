@@ -1,7 +1,7 @@
-import { FormEvent } from "react";
+import { FormEvent, useRef } from "react";
 import { Link } from "react-router-dom";
 
-type Data = {
+interface Data {
   username: string;
   realname: string;
   email: string;
@@ -9,19 +9,39 @@ type Data = {
   tanggalLahir: Date;
   gender: string;
   password: string;
-};
+}
 
 const Register = () => {
+  const refUsername = useRef<HTMLInputElement>(null);
+  const refRealname = useRef<HTMLInputElement>(null);
+  const refEmail = useRef<HTMLInputElement>(null);
+  const refTempatLahir = useRef<HTMLInputElement>(null);
+  const refTanggalLahir = useRef<HTMLInputElement>(null);
+  const refGender = useRef<HTMLSelectElement>(null);
+  const refPassword = useRef<HTMLInputElement>(null);
+
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (
+      !refUsername.current ||
+      !refRealname.current ||
+      !refEmail.current ||
+      !refTempatLahir.current ||
+      !refTanggalLahir.current ||
+      !refGender.current ||
+      !refPassword.current
+    )
+      return;
+
     const data: Data = {
-      username: e.currentTarget.username.value,
-      realname: e.currentTarget.realname.value,
-      email: e.currentTarget.email.value,
-      tempatLahir: e.currentTarget.tempatlahir.value,
-      tanggalLahir: e.currentTarget.tanggallahir.value,
-      gender: e.currentTarget.gender.value,
-      password: e.currentTarget.password.value,
+      username: refUsername.current.value,
+      realname: refRealname.current.value,
+      email: refEmail.current.value,
+      tempatLahir: refTempatLahir.current.value,
+      tanggalLahir: new Date(refTanggalLahir.current.value),
+      gender: refGender.current.value,
+      password: refPassword.current.value,
     };
     console.log(data);
   };
@@ -42,6 +62,7 @@ const Register = () => {
         className="userinput"
         required
         autoComplete="off"
+        ref={refUsername}
       />
       <label htmlFor="realname" className="labelinput">
         Nama Lengkap
@@ -53,6 +74,7 @@ const Register = () => {
         className="userinput"
         required
         autoComplete="off"
+        ref={refRealname}
       />
       <label htmlFor="email" className="labelinput">
         Email
@@ -64,6 +86,7 @@ const Register = () => {
         className="userinput"
         required
         autoComplete="off"
+        ref={refEmail}
       />
       <label htmlFor="tempatlahir" className="labelinput">
         Tempat Lahir
@@ -75,6 +98,7 @@ const Register = () => {
         className="userinput"
         required
         autoComplete="off"
+        ref={refTempatLahir}
       />
       <label htmlFor="tanggallahir" className="labelinput">
         Tanggal Lahir
@@ -86,6 +110,7 @@ const Register = () => {
         className="userinput"
         required
         autoComplete="off"
+        ref={refTanggalLahir}
       />
       <label htmlFor="gender" className="labelinput">
         Jenis Kelamin
@@ -96,6 +121,7 @@ const Register = () => {
         className="userinput"
         required
         autoComplete="off"
+        ref={refGender}
       >
         <option value={""}>-- Pilih Jenis Kelamin --</option>
         <option value={"Laki-Laki"}>Laki-Laki</option>
@@ -109,6 +135,7 @@ const Register = () => {
         id="password"
         name="password"
         className="userinput"
+        ref={refPassword}
       />
       <div className="w-1/2 sm:w-1/3 lg:w-1/4 flex">
         <input type="checkbox" id="check" name="check" required />

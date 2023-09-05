@@ -38,7 +38,7 @@ const LandingPage = () => {
           <button className="normalbutton mt-5">Mulai Konseling</button>
         </a>
         <p className="text-center italic text-zinc-400 mt-5 w-[90%]">
-          "Bersyukur dengan apa yang kamu punya" <br /> - Unknown
+          &quot;Bersyukur dengan apa yang kamu punya&quot; <br /> - Unknown
         </p>
       </div>
       <div

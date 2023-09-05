@@ -2,14 +2,14 @@ import { BiLockAlt } from "react-icons/bi";
 import { RiEarthLine } from "react-icons/ri";
 import { CiMenuKebab } from "react-icons/ci";
 
-type DataPost = {
+interface DataPost {
   username: string;
   name: string;
   private: boolean;
   anonym: boolean;
   likes: number;
   post: string;
-};
+}
 
 const Profile = () => {
   const user = {
@@ -19,7 +19,7 @@ const Profile = () => {
     mbti: "INFJ",
   };
 
-  const dataPost: Array<DataPost> = [
+  const dataPost: DataPost[] = [
     // {
     //   username: "zackdesu",
     //   name: "Wongso Wijaya",
