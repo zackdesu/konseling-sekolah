@@ -3,8 +3,10 @@ import { Link } from "react-router-dom";
 
 type Data = {
   username: string;
+  email: string;
   tempatLahir: string;
   tanggalLahir: Date;
+  gender: string;
   password: string;
 };
 
@@ -13,8 +15,10 @@ const Register = () => {
     e.preventDefault();
     const data: Data = {
       username: e.currentTarget.username.value,
+      email: e.currentTarget.email.value,
       tempatLahir: e.currentTarget.tempatlahir.value,
       tanggalLahir: e.currentTarget.tanggallahir.value,
+      gender: e.currentTarget.gender.value,
       password: e.currentTarget.password.value,
     };
     console.log(data);
@@ -23,7 +27,7 @@ const Register = () => {
   return (
     <form
       onSubmit={formSubmit}
-      className="flex flex-col items-center justify-center h-full w-full"
+      className="flex flex-col items-center justify-center w-full"
     >
       <h2 className="my-8 text-zinc-800">Buat Akun Baru</h2>
       <label htmlFor="username" className="labelinput">
@@ -35,6 +39,18 @@ const Register = () => {
         name="username"
         className="userinput"
         required
+        autoComplete="off"
+      />
+      <label htmlFor="username" className="labelinput">
+        Email
+      </label>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        className="userinput"
+        required
+        autoComplete="off"
       />
       <label htmlFor="tempatlahir" className="labelinput">
         Tempat Lahir
@@ -45,6 +61,7 @@ const Register = () => {
         name="tempatlahir"
         className="userinput"
         required
+        autoComplete="off"
       />
       <label htmlFor="tanggallahir" className="labelinput">
         Tanggal Lahir
@@ -55,7 +72,22 @@ const Register = () => {
         name="tanggallahir"
         className="userinput"
         required
+        autoComplete="off"
       />
+      <label htmlFor="gender" className="labelinput">
+        Jenis Kelamin
+      </label>
+      <select
+        id="gender"
+        name="gender"
+        className="userinput"
+        required
+        autoComplete="off"
+      >
+        <option value={""}>-- Pilih Jenis Kelamin --</option>
+        <option value={"Laki-Laki"}>Laki-Laki</option>
+        <option value={"Perempuan"}>Perempuan</option>
+      </select>
       <label htmlFor="password" className="labelinput">
         Kata Sandi
       </label>
@@ -65,9 +97,15 @@ const Register = () => {
         name="password"
         className="userinput"
       />
+      <div className="w-1/2 sm:w-1/3 lg:w-1/4 flex">
+        <input type="checkbox" id="check" name="check" required />
+        <label htmlFor="check" className="ml-3">
+          Saya yakin dengan mendaftar aplikasi ini saya menyetujui dengan syarat
+          & persyaratan.
+        </label>
+      </div>
       <button className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4">Submit</button>
-
-      <p className="mt-2">
+      <p className="my-4">
         Sudah punya akun?{" "}
         <Link to={"/login"} className="text-blue-600 underline">
           Klik disini!
