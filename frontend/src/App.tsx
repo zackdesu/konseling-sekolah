@@ -10,6 +10,8 @@ import Tentang from "./Pages/tentang";
 import Menu from "./Components/menu";
 import Settings from "./Pages/settings";
 import Feed from "./Pages/feed";
+import Talks from "./Pages/talks";
+import Quiz from "./Pages/quiz";
 
 function App() {
   return (
@@ -93,6 +95,26 @@ function App() {
             </>
           }
           path="/feed"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Quiz />
+              <Menu />
+            </>
+          }
+          path="/quiz"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Talks />
+              <Menu />
+            </>
+          }
+          path="/talks"
         />
         <Route
           element={
