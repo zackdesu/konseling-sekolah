@@ -9,6 +9,7 @@ import NotFound from "./Pages/notfound";
 import Tentang from "./Pages/tentang";
 import Menu from "./Components/menu";
 import Settings from "./Pages/settings";
+import Feed from "./Pages/feed";
 
 function App() {
   return (
@@ -82,6 +83,16 @@ function App() {
             </>
           }
           path="/settings"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Feed />
+              <Menu />
+            </>
+          }
+          path="/feed"
         />
         <Route
           element={
