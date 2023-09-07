@@ -6,7 +6,7 @@
 @layer base {
   html,
   body {
-    @apply w-full h-full font-Poppins scroll-smooth scroll-pt-16;
+    @apply w-full h-full font-Poppins scroll-smooth scroll-pt-4;
   }
 
   #root {
