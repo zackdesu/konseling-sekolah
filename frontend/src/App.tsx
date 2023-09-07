@@ -12,6 +12,7 @@ import Settings from "./Pages/settings";
 import Feed from "./Pages/feed";
 import Talks from "./Pages/talks";
 import Quiz from "./Pages/quiz";
+import CreateFeed from "./Pages/createfeed";
 
 function App() {
   return (
@@ -105,6 +106,16 @@ function App() {
             </>
           }
           path="/quiz"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <CreateFeed />
+              <Menu />
+            </>
+          }
+          path="/createfeed"
         />
         <Route
           element={
