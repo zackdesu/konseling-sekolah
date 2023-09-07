@@ -1,5 +1,4 @@
-import { AiFillCompass, AiFillHome } from "react-icons/ai";
-import { BiSearch } from "react-icons/bi";
+import { AiFillCompass, AiFillHome, AiFillBell } from "react-icons/ai";
 import { BsFillPersonFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 const Menu = () => {
@@ -12,8 +11,8 @@ const Menu = () => {
         <Link to={"/feed"}>
           <AiFillCompass size={20} className="max-[450px]:min-w-[20px]" />
         </Link>
-        <Link to={"/search"}>
-          <BiSearch size={20} className="max-[450px]:min-w-[20px]" />
+        <Link to={"/notification"}>
+          <AiFillBell size={20} className="max-[450px]:min-w-[20px]" />
         </Link>
         <Link to={"/profil"}>
           <BsFillPersonFill size={20} className="max-[450px]:min-w-[20px]" />
