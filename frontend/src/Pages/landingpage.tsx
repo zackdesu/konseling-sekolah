@@ -1,3 +1,5 @@
+import Footer from "../Components/footer";
+
 const LandingPage = () => {
   const Card = ({
     img = "sharing",
@@ -64,7 +66,7 @@ const LandingPage = () => {
           button="Refleksi disini"
         />
       </div>
-      <div className="h-[70%] bg-cyan-600 border-2"></div>
+      <Footer />
     </>
   );
 };
