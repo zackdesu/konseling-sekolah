@@ -1,15 +1,5 @@
-import { BiLockAlt } from "react-icons/bi";
-import { RiEarthLine } from "react-icons/ri";
-import { CiMenuKebab } from "react-icons/ci";
-
-interface DataPost {
-  username: string;
-  name: string;
-  private: boolean;
-  anonym: boolean;
-  likes: number;
-  post: string;
-}
+import PostCard from "../Components/postcard";
+import { dataPost } from "../Components/data";
 
 const Profile = () => {
   const user = {
@@ -19,100 +9,7 @@ const Profile = () => {
     mbti: "INFJ",
   };
 
-  const dataPost: DataPost[] = [
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: true,
-    //   anonym: true,
-    //   likes: 123,
-    //   post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
-    // },
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: true,
-    //   anonym: true,
-    //   likes: 123,
-    //   post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
-    // },
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: true,
-    //   anonym: true,
-    //   likes: 123,
-    //   post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
-    // },
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: true,
-    //   anonym: true,
-    //   likes: 123,
-    //   post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
-    // },
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: true,
-    //   anonym: true,
-    //   likes: 123,
-    //   post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
-    // },
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: true,
-    //   anonym: true,
-    //   likes: 123,
-    //   post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
-    // },
-    // {
-    //   username: "zackdesu",
-    //   name: "Wongso Wijaya",
-    //   private: false,
-    //   anonym: false,
-    //   likes: 123,
-    //   post: "Jika selama ini dunia adalah kebohongan, lantas mengapa aku harus berusaha untuk kebohongan ini?",
-    // },
-    {
-      username: "jofanctan",
-      name: "Jofan Cristoferry Tan",
-      private: false,
-      anonym: false,
-      likes: 123,
-      post: "Banyaknya tuntutan dan masalah-masalah belum terselesaikan.",
-    },
-    // {
-    //   username: "kielll97",
-    //   name: "Heskiel Jeremia Natanael",
-    //   private: false,
-    //   anonym: false,
-    //   likes: 123,
-    //   post: "Demam panggung...",
-    // },
-  ];
-
   const filteredPost = dataPost.filter((u) => u.username === user.username);
-
-  const PostCard = ({ data }: { data: DataPost }) => (
-    <div className="bg-zinc-100 rounded-lg w-[90%] h-[45%] max-sm:h-[100px] max-sm:mx-auto sm:w-[45%] m-2 p-2 flex flex-col justify-between">
-      <p className="text-xs sm:text-base">{data.post}</p>
-      <div className="flex items-center justify-between">
-        <div className="flex items-center truncate">
-          <span className="font-medium">
-            {data.private ? <BiLockAlt /> : <RiEarthLine />}
-          </span>
-          <span className="mx-1">·</span>
-          <span className="font-medium max-sm:text-xs">
-            {data.anonym ? "Anonym" : data.name}
-          </span>
-        </div>
-        <CiMenuKebab />
-      </div>
-    </div>
-  );
 
   return (
     <div className="sm:grid max-lg:grid-rows-3 lg:grid-cols-3 h-full mx-10 pt-20 pb-8 gap-4">
