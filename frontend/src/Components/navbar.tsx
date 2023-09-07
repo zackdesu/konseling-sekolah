@@ -28,11 +28,8 @@ const Navbar = () => {
             open ? "flex" : "hidden"
           }`}
         >
-          <Link className="max-md:my-1" to={"/"}>
-            Halaman Utama
-          </Link>
-          <Link className="max-md:my-1" to={"/profil"}>
-            Profil
+          <Link className="max-md:my-1" to={"/settings"}>
+            Pengaturan
           </Link>
           <Link className="max-md:my-1" to={"/tentang"}>
             Tentang
