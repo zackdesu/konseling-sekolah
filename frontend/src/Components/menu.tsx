@@ -3,8 +3,8 @@ import { BsFillPersonFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 const Menu = () => {
   return (
-    <div className="fixed bottom-5 left-0 right-0">
-      <div className="bg-zinc-200 px-4 py-3 max-w-[250px] w-[55%] min-[500px]:w-[40%] md:w-1/3 mx-auto flex justify-between items-center rounded-full">
+    <div className="mx-auto fixed bottom-5 left-0 right-0 max-w-[250px] w-[55%] min-[500px]:w-[40%] md:w-1/3">
+      <div className="bg-zinc-200 px-4 py-3 flex justify-between items-center rounded-full relative z-30">
         <Link to={"/"}>
           <AiFillHome size={20} className="min-w-[20px]" />
         </Link>
