@@ -26,51 +26,6 @@ const Settings = () => {
         title="Informasi Akun"
         desc="Rincian akun anda"
       />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
-      <SettingsMenu
-        icon={BsPersonFill as IconType}
-        title="Informasi Akun"
-        desc="Rincian akun anda"
-      />
       <button className="normalbutton bg-red-600">Log Out</button>
     </div>
   );
