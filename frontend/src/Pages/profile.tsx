@@ -12,7 +12,7 @@ const Profile = () => {
   const filteredPost = dataPost.filter((u) => u.username === user.username);
 
   return (
-    <div className="sm:grid max-lg:grid-rows-3 lg:grid-cols-3 h-full mx-10 pt-20 pb-8 gap-4">
+    <div className="sm:grid max-lg:grid-rows-3 lg:grid-cols-3 md:h-full mx-10 py-20 gap-4">
       <div className="max-sm:flex max-sm:flex-col max-lg:grid grid-cols-6 grid-rows-2 grid-flow-col lg:flex lg:flex-col mx-5 mt-5">
         <img
           src="/unknown.jpg"
