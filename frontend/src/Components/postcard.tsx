@@ -51,7 +51,7 @@ const PostCard = ({ data }: { data: DataPost }) => {
             {data.anonym ? "Anonym" : data.username}
           </span>
           <span className="ml-10" onClick={handleLikeClick}>
-            <AiFillLike />
+            <AiFillLike className={liked ? "text-blue-500" : ""} />
           </span>
           <p className="ml-4 text-sm">{likes}</p>
         </div>
