@@ -6,6 +6,9 @@ import Register from "./Pages/register";
 import Profile from "./Pages/profile";
 import LandingPage from "./Pages/landingpage";
 import NotFound from "./Pages/notfound";
+import Tentang from "./Pages/tentang";
+import Menu from "./Components/menu";
+import Settings from "./Pages/settings";
 
 function App() {
   return (
@@ -16,6 +19,7 @@ function App() {
             <>
               <Navbar />
               <LandingPage />
+              <Menu />
             </>
           }
           path="/"
@@ -34,6 +38,7 @@ function App() {
             <>
               <Navbar />
               <Login />
+              <Menu />
             </>
           }
           path="/login"
@@ -43,6 +48,7 @@ function App() {
             <>
               <Navbar />
               <Register />
+              <Menu />
             </>
           }
           path="/register"
@@ -52,6 +58,7 @@ function App() {
             <>
               <Navbar />
               <Profile />
+              <Menu />
             </>
           }
           path="/profil"
@@ -60,7 +67,28 @@ function App() {
           element={
             <>
               <Navbar />
+              <Tentang />
+              <Menu />
+            </>
+          }
+          path="/tentang"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Settings />
+              <Menu />
+            </>
+          }
+          path="/settings"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
               <NotFound />
+              <Menu />
             </>
           }
           path="*"
