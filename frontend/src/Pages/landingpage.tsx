@@ -10,7 +10,7 @@ const LandingPage = () => {
     desc: string;
     button: string;
   }) => (
-    <div className="w-[300px] h-[410px] bg-zinc-100 border-2 m-8 flex flex-col justify-between">
+    <div className="w-[300px] h-[410px] bg-zinc-100 border-2 m-8 flex flex-col justify-between shadow-md">
       <div>
         <img src={`/${img}.svg`} alt={img} className="w-full" />
         <h5 className="mx-3">{title}</h5>
