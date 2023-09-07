@@ -42,7 +42,6 @@ function App() {
             <>
               <Navbar />
               <Login />
-              <Menu />
             </>
           }
           path="/login"
@@ -52,7 +51,6 @@ function App() {
             <>
               <Navbar />
               <Register />
-              <Menu />
             </>
           }
           path="/register"
