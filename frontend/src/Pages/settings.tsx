@@ -20,7 +20,7 @@ const Settings = () => {
 
   return (
     <div className="py-20 flex flex-col items-center">
-      <h2 className="my-5">Settings</h2>
+      <h2 className="my-5">Pengaturan</h2>
       <SettingsMenu
         icon={BsPersonFill as IconType}
         title="Informasi Akun"
@@ -71,6 +71,7 @@ const Settings = () => {
         title="Informasi Akun"
         desc="Rincian akun anda"
       />
+      <button className="normalbutton bg-red-600">Log Out</button>
     </div>
   );
 };
