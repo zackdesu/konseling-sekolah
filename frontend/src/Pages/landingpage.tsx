@@ -1,12 +1,16 @@
+import { Link } from "react-router-dom";
 import Footer from "../Components/footer";
+import MenuParent from "../Components/menuparent";
 
 const LandingPage = () => {
   const Card = ({
+    href = "talks",
     img = "sharing",
     title,
     desc,
     button,
   }: {
+    href?: string;
     img?: string;
     title: string;
     desc: string;
@@ -14,12 +18,14 @@ const LandingPage = () => {
   }) => (
     <div className="w-[300px] h-[410px] bg-zinc-100 border-2 m-8 flex flex-col justify-between shadow-md">
       <div>
-        <img src={`/${img}.svg`} alt={img} className="w-full" />
+        <img src={`/${img}.svg`} alt={img} className="w-full h-[296px]" />
         <h5 className="mx-3">{title}</h5>
         <p className="mx-3 text-zinc-400 text-sm">{desc}</p>
       </div>
       <div className="mb-2 ml-2">
-        <button className="normalbutton">{button}</button>
+        <Link to={href}>
+          <button className="normalbutton">{button}</button>
+        </Link>
       </div>
     </div>
   );
@@ -43,9 +49,10 @@ const LandingPage = () => {
           &quot;Bersyukur dengan apa yang kamu punya&quot; <br /> - Unknown
         </p>
       </div>
-      <div
+      <MenuParent
+        title="Are you okay?"
+        desc="Tempat untuk meluapkan semua energi negatifmu."
         id="menu"
-        className="w-full min-[1092px]:h-full flex justify-center items-center flex-wrap"
       >
         <Card
           img="sharing"
@@ -65,7 +72,30 @@ const LandingPage = () => {
           desc="Refleksi dirimu disini"
           button="Refleksi disini"
         />
-      </div>
+      </MenuParent>
+      <MenuParent
+        title="How's your day?"
+        desc="Mempelajari hal-hal baru dan mengisi energi positif."
+      >
+        <Card
+          img="quotes"
+          title="Quotes"
+          desc="Kumpulan quotes menarik dari kami"
+          button="Baca Quotes"
+        />
+        <Card
+          img="article"
+          title="Artikel"
+          desc="Kumpulan artikel menarik"
+          button="Baca artikel"
+        />
+        <Card
+          img="tips"
+          title="Tips-tips"
+          desc="Tips dalam menghadapi hari-harimu"
+          button="Lihat tips"
+        />
+      </MenuParent>
       <Footer />
     </>
   );
