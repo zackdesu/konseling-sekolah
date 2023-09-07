@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { dataPost } from "../Components/data";
 import FeedPost from "../Components/feedpost";
 
@@ -5,7 +6,9 @@ const Feed = () => {
   return (
     <>
       <div className="py-20 flex flex-wrap items-center justify-center mx-5">
-        <button className="normalbutton ml-auto mr-12">+ Buat Feed</button>
+        <Link to={"/createfeed"} className="ml-auto normalbutton mr-12">
+          + Buat Feed
+        </Link>
         {dataPost
           .filter((e) => !e.private)
           .map((e, i) => (
