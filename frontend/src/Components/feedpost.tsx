@@ -2,7 +2,7 @@ import { BiLockAlt } from "react-icons/bi";
 import { CiMenuKebab } from "react-icons/ci";
 import { RiEarthLine } from "react-icons/ri";
 import { AiFillLike } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface User {
   username: string;
@@ -51,10 +51,6 @@ const FeedPost = ({ data }: { data: DataPost }) => {
   };
 
   const postOwner = allUsers.find((user) => data.username === user.username);
-
-  useEffect(() => {
-    console.log(postOwner?.img);
-  }, [postOwner]);
 
   return (
     <div className="bg-zinc-100 rounded-lg w-[90%] max-sm:mx-auto m-2 p-2 flex flex-col justify-between">
