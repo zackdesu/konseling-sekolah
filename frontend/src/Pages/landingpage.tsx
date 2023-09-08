@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import Footer from "../Components/footer";
 import MenuParent from "../Components/menuparent";
+import { QuotesData } from "../Components/data";
 
 const LandingPage = () => {
   const Card = ({
@@ -23,12 +24,15 @@ const LandingPage = () => {
         <p className="mx-3 text-zinc-400 text-sm">{desc}</p>
       </div>
       <div className="mb-2 ml-2">
-        <Link to={href}>
+        <Link to={"/" + href}>
           <button className="normalbutton">{button}</button>
         </Link>
       </div>
     </div>
   );
+
+  const mathRandom = Math.round(Math.random() * QuotesData.length);
+  const Quote = QuotesData[mathRandom];
 
   return (
     <>
@@ -46,7 +50,7 @@ const LandingPage = () => {
           <button className="normalbutton mt-5">Mulai Konseling</button>
         </a>
         <p className="text-center italic text-zinc-400 mt-5 w-[90%]">
-          &quot;Bersyukur dengan apa yang kamu punya&quot; <br /> - Unknown
+          &quot;{Quote.quote}&quot; <br /> - {Quote.creator}
         </p>
       </div>
       <MenuParent
@@ -78,6 +82,7 @@ const LandingPage = () => {
         desc="Mempelajari hal-hal baru dan mengisi energi positif."
       >
         <Card
+          href="quotes"
           img="quotes"
           title="Quotes"
           desc="Kumpulan quotes menarik dari kami"
