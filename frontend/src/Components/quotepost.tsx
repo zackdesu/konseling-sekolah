@@ -4,12 +4,16 @@ import { useState } from "react";
 
 const user: User = {
   username: "zackdesu",
-  name: "Wongso Wijaya",
+  realname: "Wongso Wijaya",
   gender: "Laki-Laki",
   mbti: "INFJ",
   likedPost: [],
   likedQuotes: [],
   img: "/unknown.jpg",
+  email: "",
+  tempatLahir: "",
+  tanggalLahir: new Date(2007, 1, 8),
+  password: "12345678",
 };
 
 const QuotePost = ({ data }: { data: DataQuotes }) => {

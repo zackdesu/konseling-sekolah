@@ -9,12 +9,16 @@ interface DataPost {
 
 interface User {
   username: string;
-  name: string;
+  realname: string;
+  email: string;
+  tempatLahir: string;
+  tanggalLahir: Date;
   gender: string;
-  mbti: string;
+  password: string;
+  img: string;
   likedPost: DataPost[];
   likedQuotes: DataQuotes[];
-  img: string;
+  mbti: string;
 }
 
 interface DataQuotes {

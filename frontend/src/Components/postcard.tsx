@@ -4,20 +4,18 @@ import { RiEarthLine } from "react-icons/ri";
 import { AiFillLike } from "react-icons/ai";
 import { useState } from "react";
 
-interface User {
-  username: string;
-  name: string;
-  gender: string;
-  mbti: string;
-  likedPost: DataPost[];
-}
-
 const user: User = {
   username: "zackdesu",
-  name: "Wongso Wijaya",
+  realname: "Wongso Wijaya",
   gender: "Laki-Laki",
   mbti: "INFJ",
   likedPost: [],
+  likedQuotes: [],
+  img: "/unknown.jpg",
+  email: "",
+  tempatLahir: "",
+  tanggalLahir: new Date(2007, 1, 8),
+  password: "12345678",
 };
 
 const PostCard = ({ data }: { data: DataPost }) => {
