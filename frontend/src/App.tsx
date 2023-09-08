@@ -13,6 +13,7 @@ import Feed from "./Pages/feed";
 import Talks from "./Pages/talks";
 import Quiz from "./Pages/quiz";
 import CreateFeed from "./Pages/createfeed";
+import Quotes from "./Pages/quotes";
 
 function App() {
   return (
@@ -124,6 +125,16 @@ function App() {
             </>
           }
           path="/talks"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
+              <Quotes />
+              <Menu />
+            </>
+          }
+          path="/quotes"
         />
         <Route
           element={
