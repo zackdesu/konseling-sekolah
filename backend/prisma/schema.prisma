@@ -21,6 +21,8 @@ model Account {
   password     String
   mbti         String?
   img          String?
+  phonenumber  String?
+  token        String?      @db.VarChar(600)
   likedPost    DataPost[]
   likedQuotes  DataQuotes[]
 }
