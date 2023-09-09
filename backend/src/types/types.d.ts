@@ -1,4 +1,21 @@
+interface DataQuotes {
+  id: string;
+  quote: string;
+  creator: string;
+  likes: number;
+}
+
+interface DataPost {
+  id: string;
+  username: string;
+  private: boolean;
+  anonym: boolean;
+  likes: number;
+  post: string;
+}
+
 interface User {
+  id: string;
   username: string;
   realname: string;
   email: string;
@@ -6,8 +23,36 @@ interface User {
   tanggalLahir: Date;
   gender: string;
   password: string;
-  img?: string;
-  likedPost: DataPost[];
-  likedQuotes: DataQuotes[];
-  mbti?: string;
+  img: string | null;
+  likedPost?: DataPost[];
+  likedQuotes?: DataQuotes[];
+  mbti: string | null;
+  phonenumber: string | null;
+}
+
+interface IToken {
+  id: string;
+  username: string;
+  email: string;
+  gender: string;
+  img: string | null;
+}
+
+interface IProfile {
+  id: string;
+  username: string;
+  realname: string;
+  tempatLahir: string;
+  tanggalLahir: Date;
+  gender: string;
+  img: string | null;
+  mbti: string | null;
+}
+
+declare global {
+  module "express" {
+    interface Request {
+      user?: IToken | null;
+    }
+  }
 }
