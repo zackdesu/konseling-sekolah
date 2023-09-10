@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import Footer from "../Components/footer";
 import MenuParent from "../Components/menuparent";
 import { QuotesData } from "../Components/data";
+import { useEffect, useState } from "react";
+import redirectuser from "../utils/redirecthome";
 
 const LandingPage = () => {
+  redirectuser();
+
   const Card = ({
     href = "talks",
     img = "sharing",
@@ -31,8 +35,12 @@ const LandingPage = () => {
     </div>
   );
 
-  const mathRandom = Math.round(Math.random() * QuotesData.length);
-  const Quote = QuotesData[mathRandom];
+  const [Quote, setQuote] = useState<DataQuotes>();
+
+  useEffect(() => {
+    const mathRandom = Math.round(Math.random() * QuotesData.length);
+    setQuote(QuotesData[mathRandom]);
+  }, []);
 
   return (
     <>
@@ -50,7 +58,7 @@ const LandingPage = () => {
           <button className="normalbutton mt-5">Mulai Konseling</button>
         </a>
         <p className="text-center italic text-zinc-400 mt-5 w-[90%]">
-          &quot;{Quote.quote}&quot; <br /> - {Quote.creator}
+          &quot;{Quote && Quote.quote}&quot; <br /> - {Quote && Quote.creator}
         </p>
       </div>
       <MenuParent
