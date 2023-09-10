@@ -1,7 +1,12 @@
 import { IconType } from "react-icons";
 import { BsPersonFill } from "react-icons/bs";
+import { useApi } from "../api/api";
+import { useNavigate } from "react-router-dom";
+import redirectuser from "../utils/redirecthome";
 
 const Settings = () => {
+  redirectuser();
+
   const SettingsMenu = ({
     icon: Icon,
     title,
@@ -18,6 +23,17 @@ const Settings = () => {
     </div>
   );
 
+  const navigate = useNavigate();
+
+  const handleLogOut = () => {
+    useApi("/login", "delete")
+      .then((res) => {
+        console.log(res);
+        navigate("/home");
+      })
+      .catch((err: IAPIError) => console.error(err.response.data.message));
+  };
+
   return (
     <div className="py-20 flex flex-col items-center">
       <h2 className="my-5">Pengaturan</h2>
@@ -26,7 +42,9 @@ const Settings = () => {
         title="Informasi Akun"
         desc="Rincian akun anda"
       />
-      <button className="normalbutton bg-red-600">Log Out</button>
+      <button className="normalbutton bg-red-600" onClick={handleLogOut}>
+        Log Out
+      </button>
     </div>
   );
 };
