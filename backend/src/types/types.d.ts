@@ -30,14 +30,6 @@ interface User {
   phonenumber: string | null;
 }
 
-interface IToken {
-  id: string;
-  username: string;
-  email: string;
-  gender: string;
-  img: string | null;
-}
-
 interface IProfile {
   id: string;
   username: string;
@@ -49,10 +41,11 @@ interface IProfile {
   mbti: string | null;
 }
 
-declare global {
-  module "express" {
-    interface Request {
-      user?: IToken | null;
-    }
-  }
+interface ILogin {
+  username: string;
+  password: string;
+}
+
+interface ICookie {
+  refreshtoken: string;
 }
