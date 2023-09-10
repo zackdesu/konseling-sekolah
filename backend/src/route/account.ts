@@ -5,6 +5,7 @@ import {
   refreshUserToken,
   logout,
   getAccount,
+  editAccount,
   changePassword,
 } from "../controller/account";
 import { body } from "express-validator";
@@ -29,6 +30,8 @@ router
 router
   .route("/account")
   .get(isLoggedIn, getAccount)
-  .put(isLoggedIn, changePassword);
+  .put(isLoggedIn, editAccount);
+
+router.put("/password", isLoggedIn, changePassword);
 
 export { router };

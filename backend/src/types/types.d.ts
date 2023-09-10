@@ -49,3 +49,10 @@ interface ILogin {
 interface ICookie {
   refreshtoken: string;
 }
+
+interface IEditable {
+  realname: string;
+  mbti: string;
+  tempatLahir: string;
+  tanggalLahir: string;
+}
