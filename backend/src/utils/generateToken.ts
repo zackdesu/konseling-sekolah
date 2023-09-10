@@ -3,23 +3,22 @@ import jwt from "jsonwebtoken";
 import app from "../app";
 import prisma from "./prisma";
 
-export const generateToken = (res: Response, user: IToken) => {
+export const generateToken = (res: Response, user: IProfile) => {
   if (!process.env.ACCESS_TOKEN_SECRET)
     return res.status(500).json({ message: "Token is undefined!" });
-  const isDev = app.get("env") === "development";
 
   const token = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: isDev ? "2m" : "2d",
+    expiresIn: "8m",
   });
 
   return token;
 };
 
-export const generateRefreshToken = async (res: Response, user: IToken) => {
+export const generateRefreshToken = async (res: Response, id: string) => {
   if (!process.env.REFRESH_TOKEN_SECRET)
     return res.status(500).json({ message: "Token is undefined!" });
   const isDev = app.get("env") === "development";
-  const token = jwt.sign(user, process.env.REFRESH_TOKEN_SECRET, {
+  const token = jwt.sign({ id }, process.env.REFRESH_TOKEN_SECRET, {
     expiresIn: "30d",
   });
 
@@ -32,14 +31,10 @@ export const generateRefreshToken = async (res: Response, user: IToken) => {
 
   const updateToken = await prisma.account.update({
     where: {
-      id: user.id,
+      id,
     },
     data: {
       token,
     },
   });
-
-  console.log(token);
-
-  console.log(updateToken);
 };
