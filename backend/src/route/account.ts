@@ -2,9 +2,10 @@ import { Router } from "express";
 import {
   register,
   postLogin,
-  getLogin,
   refreshUserToken,
   logout,
+  getAccount,
+  changePassword,
 } from "../controller/account";
 import { body } from "express-validator";
 import { isLoggedIn, midWareRegister } from "../middleware/account";
@@ -22,7 +23,12 @@ router.post(
 router
   .route("/login")
   .post(postLogin)
-  .get(isLoggedIn, getLogin)
-  .put(refreshUserToken)
-  .delete(logout);
+  .put(isLoggedIn, refreshUserToken)
+  .delete(isLoggedIn, logout);
+
+router
+  .route("/account")
+  .get(isLoggedIn, getAccount)
+  .put(isLoggedIn, changePassword);
+
 export { router };

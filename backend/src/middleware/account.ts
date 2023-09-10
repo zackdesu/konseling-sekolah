@@ -3,7 +3,7 @@ import { validationResult } from "express-validator";
 import prisma from "../utils/prisma";
 import jwt from "jsonwebtoken";
 
-export const midWareRegister = async (
+export const midWareRegister = (
   req: Request,
   res: Response,
   next: NextFunction
@@ -16,7 +16,7 @@ export const midWareRegister = async (
     tanggalLahir,
     gender,
     password,
-  }: User = req.body;
+  } = req.body as User;
 
   if (
     !realname ||
@@ -72,30 +72,32 @@ export const midWareRegister = async (
   if (!(new Date(tanggalLahir) instanceof Date))
     return res.status(403).json({ message: "Tanggal ini bukan format Date!" });
 
-  const isUsernameExist = await prisma.account.findFirst({
-    where: {
-      username,
-    },
-  });
+  void (async () => {
+    const isUsernameExist = await prisma.account.findFirst({
+      where: {
+        username,
+      },
+    });
 
-  if (isUsernameExist)
-    return res.status(403).json({ message: "Username sudah digunakan!" });
+    if (isUsernameExist)
+      return res.status(403).json({ message: "Username sudah digunakan!" });
 
-  const isEmailExist = await prisma.account.findFirst({
-    where: {
-      email,
-    },
-  });
+    const isEmailExist = await prisma.account.findFirst({
+      where: {
+        email,
+      },
+    });
 
-  if (isEmailExist)
-    return res.status(403).json({ message: "Email sudah digunakan!" });
+    if (isEmailExist)
+      return res.status(403).json({ message: "Email sudah digunakan!" });
 
-  next();
+    next();
+  })();
 };
 
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   const accessToken = process.env.REFRESH_TOKEN_SECRET;
-  const { refreshtoken } = req.cookies;
+  const { refreshtoken } = req.cookies as ICookie;
 
   if (!accessToken)
     return res.status(403).json({ message: "Token is undefined!" });
@@ -104,7 +106,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
       .status(404)
       .json({ message: "Kamu belum login, silahkan login." });
 
-  const verifyToken = jwt.verify(refreshtoken as string, accessToken);
+  const verifyToken = jwt.verify(refreshtoken, accessToken);
 
   if (!verifyToken)
     return res

@@ -29,7 +29,7 @@ export const generateRefreshToken = async (res: Response, id: string) => {
     maxAge: 1000 * 60 * 60 * 24 * 30,
   });
 
-  const updateToken = await prisma.account.update({
+  await prisma.account.update({
     where: {
       id,
     },

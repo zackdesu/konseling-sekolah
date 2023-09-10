@@ -5,7 +5,7 @@ export const isUsernameValid = (
   res: Response,
   next: NextFunction
 ) => {
-  const { username } = req.body;
+  const { username } = req.body as { username: string };
 
   const validUsernamePattern = /^[a-zA-Z0-9_.]+$/;
 
@@ -22,7 +22,7 @@ export const isRealNameValid = (
   res: Response,
   next: NextFunction
 ) => {
-  const { realname } = req.body;
+  const { realname } = req.body as { realname: string };
 
   const validRealNamePattern = /^[a-zA-Z\s]+$/;
 
