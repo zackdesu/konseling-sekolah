@@ -1,6 +1,6 @@
 import { FormEvent, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useApi } from "../api/api";
+import { connectApi } from "../api/api";
 
 interface Data {
   username: string;
@@ -22,10 +22,10 @@ const Login = () => {
       username: refUsername.current?.value,
       password: refPassword.current?.value,
     };
-    useApi("/login", "POST", data)
-      .then((res: IAPISuccess) => {
+    connectApi<IAPISuccess>("/login", "POST", data)
+      .then((res) => {
         console.log(res.message);
-        navigate("/");
+        return navigate("/");
       })
       .catch((err: IAPIError) => console.error(err.response.data.message));
   };

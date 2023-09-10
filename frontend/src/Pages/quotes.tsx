@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import QuotePost from "../Components/quotepost";
 import { QuotesData } from "../Components/data";
-import redirectuser from "../utils/redirecthome";
+import Redirectuser from "../utils/redirecthome";
 
 const Quotes = () => {
-  redirectuser();
+  Redirectuser();
   return (
     <div className="py-20 flex flex-wrap items-center justify-center mx-5">
       <Link to={"/createfeed"} className="ml-auto normalbutton mr-12">

@@ -1,26 +1,22 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 export const api = axios.create({
   baseURL: "http://localhost:3000",
   withCredentials: true,
 });
 
-export const useApi = async (
+export const connectApi = async <T>(
   url: string,
-  method: string = "GET",
+  method = "GET",
   data?: unknown
 ) => {
-  try {
-    const res = await api({
-      url,
-      method: method.toUpperCase(),
-      data,
-    });
+  const res: AxiosResponse<T> = await api({
+    url,
+    method: method.toUpperCase(),
+    data,
+  });
 
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  return res.data;
 };
 
 // api.interceptors.request.use(
@@ -40,25 +36,17 @@ export const useApi = async (
 //   }
 // );
 
-export const infoAcc = async (token: string) => {
-  try {
-    const res = await api.get("/account", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+export const infoAcc = async <T>(token: string) => {
+  const res: AxiosResponse<T> = await api.get("/account", {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
 
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+  return res.data;
 };
 
-export const refreshAcc = async () => {
-  try {
-    const res = await api.put("/login");
-    return res.data;
-  } catch (error) {
-    throw error;
-  }
+export const refreshAcc = async <T>() => {
+  const res: AxiosResponse<T> = await api.put("/login");
+  return res.data;
 };

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { dataPost } from "../Components/data";
 import FeedPost from "../Components/feedpost";
-import redirectuser from "../utils/redirecthome";
+import Redirectuser from "../utils/redirecthome";
 
 const Feed = () => {
-  redirectuser();
+  Redirectuser();
   return (
     <>
       <div className="py-20 flex flex-wrap items-center justify-center mx-5">

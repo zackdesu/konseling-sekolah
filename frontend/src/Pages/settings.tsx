@@ -1,11 +1,11 @@
 import { IconType } from "react-icons";
 import { BsPersonFill } from "react-icons/bs";
-import { useApi } from "../api/api";
+import { connectApi } from "../api/api";
 import { useNavigate } from "react-router-dom";
-import redirectuser from "../utils/redirecthome";
+import Redirectuser from "../utils/redirecthome";
 
 const Settings = () => {
-  redirectuser();
+  Redirectuser();
 
   const SettingsMenu = ({
     icon: Icon,
@@ -26,7 +26,7 @@ const Settings = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    useApi("/login", "delete")
+    connectApi("/login", "delete")
       .then((res) => {
         console.log(res);
         navigate("/home");

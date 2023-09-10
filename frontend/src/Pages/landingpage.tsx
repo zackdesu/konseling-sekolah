@@ -3,10 +3,10 @@ import Footer from "../Components/footer";
 import MenuParent from "../Components/menuparent";
 import { QuotesData } from "../Components/data";
 import { useEffect, useState } from "react";
-import redirectuser from "../utils/redirecthome";
+import Redirectuser from "../utils/redirecthome";
 
 const LandingPage = () => {
-  redirectuser();
+  Redirectuser();
 
   const Card = ({
     href = "talks",
@@ -58,7 +58,8 @@ const LandingPage = () => {
           <button className="normalbutton mt-5">Mulai Konseling</button>
         </a>
         <p className="text-center italic text-zinc-400 mt-5 w-[90%]">
-          &quot;{Quote && Quote.quote}&quot; <br /> - {Quote && Quote.creator}
+          &quot;{Quote ? Quote.quote : null}&quot; <br /> -{" "}
+          {Quote ? Quote.creator : null}
         </p>
       </div>
       <MenuParent

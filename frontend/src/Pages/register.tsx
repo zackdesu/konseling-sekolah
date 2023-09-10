@@ -1,6 +1,6 @@
 import { FormEvent, useRef } from "react";
 import { Link } from "react-router-dom";
-import { useApi } from "../api/api";
+import { connectApi } from "../api/api";
 import { useNavigate } from "react-router-dom";
 
 const Register = () => {
@@ -37,8 +37,8 @@ const Register = () => {
       password: refPassword.current.value,
     };
 
-    useApi("/register", "POST", data)
-      .then((res: IAPISuccess) => {
+    connectApi<IAPISuccess>("/register", "POST", data)
+      .then((res) => {
         console.log(res.message);
         navigate("/login", { preventScrollReset: true });
       })
