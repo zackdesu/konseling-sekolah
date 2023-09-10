@@ -1,15 +1,7 @@
 import { FormEvent, useRef } from "react";
 import { Link } from "react-router-dom";
-
-interface Data {
-  username: string;
-  realname: string;
-  email: string;
-  tempatLahir: string;
-  tanggalLahir: Date;
-  gender: string;
-  password: string;
-}
+import { useApi } from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const refUsername = useRef<HTMLInputElement>(null);
@@ -19,6 +11,7 @@ const Register = () => {
   const refTanggalLahir = useRef<HTMLInputElement>(null);
   const refGender = useRef<HTMLSelectElement>(null);
   const refPassword = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
 
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +27,7 @@ const Register = () => {
     )
       return;
 
-    const data: Data = {
+    const data: IRegisterData = {
       username: refUsername.current.value,
       realname: refRealname.current.value,
       email: refEmail.current.value,
@@ -43,7 +36,13 @@ const Register = () => {
       gender: refGender.current.value,
       password: refPassword.current.value,
     };
-    console.log(data);
+
+    useApi("/register", "POST", data)
+      .then((res: IAPISuccess) => {
+        console.log(res.message);
+        navigate("/login", { preventScrollReset: true });
+      })
+      .catch((err: IAPIError) => console.log(err.response.data.message));
   };
 
   return (
