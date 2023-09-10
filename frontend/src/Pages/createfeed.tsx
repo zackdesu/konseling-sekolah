@@ -1,6 +1,8 @@
 import { FormEvent, useRef } from "react";
+import redirectuser from "../utils/redirecthome";
 
 const CreateFeed = () => {
+  redirectuser();
   const post = useRef<HTMLTextAreaElement>(null);
   const isPrivate = useRef<HTMLInputElement>(null);
   const isAnonym = useRef<HTMLInputElement>(null);
