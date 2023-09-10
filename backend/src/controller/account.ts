@@ -233,7 +233,7 @@ export const changePassword = (req: Request, res: Response) => {
         ? req.headers.authorization.split(" ")[1]
         : null;
 
-      if (!accessTokenEnv || !token)
+      if (!accessTokenEnv || !token || !refreshTokenEnv)
         throw res.status(404).json({ message: "Token undefined!" });
       if (!oldPassword || !newPassword)
         throw res
@@ -256,7 +256,12 @@ export const changePassword = (req: Request, res: Response) => {
         findUser.password
       );
       if (!isPasswordSame)
-        throw res.status(401).json({ message: "Old password is wrong!" });
+        throw res.status(401).json({ message: "Password lama tidak sesuai." });
+
+      if (oldPassword === newPassword)
+        throw res.status(401).json({
+          message: "Password lama tidak boleh sama dengan password baru.",
+        });
 
       const password = await bcrypt.hash(newPassword, 10);
 
@@ -272,7 +277,24 @@ export const changePassword = (req: Request, res: Response) => {
       if (!changePassword)
         throw res.status(500).json({ message: "Internal server error." });
 
-      console.log(changePassword);
+      const sendData: IProfile = {
+        id: changePassword.id,
+        username: changePassword.username,
+        realname: changePassword.realname,
+        tempatLahir: changePassword.tempatLahir,
+        tanggalLahir: changePassword.tanggalLahir,
+        gender: changePassword.gender,
+        mbti: changePassword.mbti,
+        img: changePassword.img,
+      };
+
+      await generateRefreshToken(res, sendData.id);
+      const newAccToken = generateToken(res, sendData);
+
+      return res.json({
+        token: newAccToken,
+        message: "Password berhasil diubah!",
+      });
     } catch (error) {
       console.error(error);
     } finally {
