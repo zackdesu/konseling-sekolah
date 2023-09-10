@@ -1,15 +1,34 @@
 import PostCard from "../Components/postcard";
 import { dataPost } from "../Components/data";
+import { useState, useEffect } from "react";
+import { infoAcc, refreshAcc } from "../api/api";
+import redirectuser from "../utils/redirecthome";
 
 const Profile = () => {
-  const user = {
-    username: "zackdesu",
-    name: "Wongso Wijaya",
-    gender: "Laki-Laki",
-    mbti: "INFJ",
-  };
+  redirectuser();
 
-  const filteredPost = dataPost.filter((u) => u.username === user.username);
+  const [token, setToken] = useState<string>("");
+  const [user, setUser] = useState<IProfile>();
+
+  useEffect(() => {
+    refreshAcc()
+      .then((res: IAPISuccess) => res.token && setToken(res.token))
+      .catch((err: IAPIError) => {
+        console.error(err.response.data.message);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (!token) return;
+
+    infoAcc(token)
+      .then((res) => setUser(res))
+      .catch((err: IAPIError) => console.error(err.response.data.message));
+  }, [token]);
+
+  const filteredPost = dataPost.filter(
+    (u) => u.username === (user && user.username)
+  );
 
   return (
     <div className="sm:grid max-lg:grid-rows-3 lg:grid-cols-3 md:h-full mx-10 py-20 gap-4">
@@ -19,10 +38,10 @@ const Profile = () => {
           className="max-w-[240px] max-sm:w-2/6 max-lg:w-full lg:w-9/12 max-lg:row-span-2 place-self-center rounded-full"
         />
         <h1 className="max-sm:text-center max-sm:mt-5 lg:mt-3 lg:mb-1 max-lg:col-span-3 max-sm:self-center max-lg:self-end sm:ml-5">
-          {user.name}
+          {user && user.realname}
         </h1>
         <p className="text-zinc-400 mt-2 max-lg:col-span-2 max-sm:self-center lg:mb-1 sm:ml-6">
-          {user.gender} · {user.mbti}
+          {user && user.gender} · {user && user.mbti ? user.mbti : "Set MBTI"}
         </p>
         <p className="max-lg:hidden sm:ml-6">Belum ada bio.</p>
         <button className="invertedbutton w-3/4 max-lg:col-start-5 max-lg:col-span-2 max-lg:row-span-2 place-self-center">
