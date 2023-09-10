@@ -35,11 +35,12 @@ export const register = (req: Request, res: Response) => {
       });
 
       if (!createAccount)
-        return res.status(505).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       return res.status(200).json({ message: "Berhasil membuat akun!" });
     } catch (error) {
       console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }
@@ -51,18 +52,18 @@ export const postLogin = (req: Request, res: Response) => {
     try {
       const { username, password } = req.body as ILogin;
       if (!username || !password)
-        return res.status(403).json({ message: "Isi data dengan lengkap!" });
+        throw res.status(403).json({ message: "Isi data dengan lengkap!" });
 
       let user: User | null;
 
       if (username.includes("@")) {
-        user = await prisma.account.findFirstOrThrow({
+        user = await prisma.account.findFirst({
           where: {
             email: username,
           },
         });
       } else {
-        user = await prisma.account.findFirstOrThrow({
+        user = await prisma.account.findFirst({
           where: {
             username,
           },
@@ -70,10 +71,10 @@ export const postLogin = (req: Request, res: Response) => {
       }
 
       if (!user)
-        return res.status(404).json({ message: "Akun tidak ditemukan!" });
+        throw res.status(404).json({ message: "Akun tidak ditemukan!" });
       const checkPassword = await bcrypt.compare(password, user.password);
       if (!checkPassword)
-        return res
+        throw res
           .status(403)
           .json({ message: "Password yang anda masukkan salah." });
 
@@ -91,11 +92,12 @@ export const postLogin = (req: Request, res: Response) => {
       await generateRefreshToken(res, data.id);
       const token = generateToken(res, data);
 
-      res
+      return res
         .status(200)
         .json({ token, message: `Selamat datang, ${user.realname}!` });
     } catch (error) {
       console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }
@@ -110,27 +112,25 @@ export const getAccount = (req: Request, res: Response) => {
         : null;
 
       if (!accessTokenEnv)
-        return res.status(403).json({ message: "Token is undefined!" });
+        throw res.status(403).json({ message: "Token is undefined!" });
       if (!token)
-        return res
+        throw res
           .status(404)
           .json({ message: "Kamu belum login, silahkan login." });
 
       const user = jwt.verify(token, accessTokenEnv);
 
       if (!user)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
-      const data = await prisma.account.findFirstOrThrow({
+      const data = await prisma.account.findFirst({
         where: {
           id: (user as IProfile).id,
         },
       });
 
       if (!data)
-        return res
-          .status(500)
-          .json({ message: "Account not found! Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       const sendData: IProfile = {
         id: data.id,
@@ -143,9 +143,10 @@ export const getAccount = (req: Request, res: Response) => {
         img: data.img,
       };
 
-      res.status(200).json(sendData);
+      return res.status(200).json(sendData);
     } catch (error) {
       console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }
@@ -156,13 +157,13 @@ export const refreshUserToken = (req: Request, res: Response) => {
   void (async () => {
     try {
       const { refreshtoken } = req.cookies as ICookie;
-      const findUser = await prisma.account.findFirstOrThrow({
+      const findUser = await prisma.account.findFirst({
         where: {
           token: refreshtoken,
         },
       });
 
-      if (!findUser) return res.status(403).json({ message: "Token Invalid!" });
+      if (!findUser) throw res.status(403).json({ message: "Token Invalid!" });
 
       const data: IProfile = {
         id: findUser.id,
@@ -180,6 +181,7 @@ export const refreshUserToken = (req: Request, res: Response) => {
       return res.json({ token, message: "Token berhasil di refresh!" });
     } catch (error) {
       console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }
@@ -192,12 +194,12 @@ export const logout = (req: Request, res: Response) => {
       const { refreshtoken } = req.cookies as ICookie;
 
       if (!refreshTokenEnv)
-        return res.status(500).json({ message: "Token is undefined!" });
+        throw res.status(500).json({ message: "Token is undefined!" });
 
       const user = jwt.verify(refreshtoken, refreshTokenEnv);
 
       if (!user)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       const dataUser = await prisma.account.update({
         where: {
@@ -211,11 +213,12 @@ export const logout = (req: Request, res: Response) => {
       res.clearCookie("refreshtoken");
 
       if (!dataUser)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       return res.json({ token: null, message: "Berhasil logout!" });
     } catch (error) {
       console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }
@@ -234,32 +237,35 @@ export const changePassword = (req: Request, res: Response) => {
         : null;
 
       if (!accessTokenEnv || !token || !refreshTokenEnv)
-        return res.status(404).json({ message: "Token undefined!" });
+        throw res.status(404).json({ message: "Token undefined!" });
       if (!oldPassword || !newPassword)
-        return res
+        throw res
           .status(404)
           .json({ message: "Data tidak diisi dengan benar" });
 
       const user = jwt.verify(token, accessTokenEnv);
 
       if (!user)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
-      const findUser = await prisma.account.findFirstOrThrow({
+      const findUser = await prisma.account.findFirst({
         where: {
           id: (user as IProfile).id,
         },
       });
+
+      if (!findUser)
+        throw res.status(500).json({ message: "Internal server error." });
 
       const isPasswordSame = await bcrypt.compare(
         oldPassword,
         findUser.password
       );
       if (!isPasswordSame)
-        return res.status(401).json({ message: "Password lama tidak sesuai." });
+        throw res.status(401).json({ message: "Password lama tidak sesuai." });
 
       if (oldPassword === newPassword)
-        return res.status(401).json({
+        throw res.status(401).json({
           message: "Password lama tidak boleh sama dengan password baru.",
         });
 
@@ -275,7 +281,7 @@ export const changePassword = (req: Request, res: Response) => {
       });
 
       if (!changePassword)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       const sendData: IProfile = {
         id: changePassword.id,
@@ -297,6 +303,7 @@ export const changePassword = (req: Request, res: Response) => {
       });
     } catch (error) {
       console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }
@@ -308,20 +315,23 @@ export const editAccount = (req: Request, res: Response) => {
     try {
       const { realname, mbti, tempatLahir, tanggalLahir } =
         req.body as IEditable;
+
       const token = req.headers.authorization
         ? req.headers.authorization.split(" ")[1]
         : null;
+
       if (!realname || !tempatLahir || !tanggalLahir)
-        return res.status(404).json({
+        throw res.status(404).json({
           message: "Nama lengkap dan tempat/tanggal lahir tidak boleh kosong.",
         });
+
       if (!accessTokenEnv || !refreshTokenEnv || !token)
-        return res.status(404).json({ message: "Token invalid" });
+        throw res.status(404).json({ message: "Token invalid" });
 
       const user = jwt.verify(token, accessTokenEnv);
 
       if (!user)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       const updateUser = await prisma.account.update({
         where: {
@@ -336,7 +346,7 @@ export const editAccount = (req: Request, res: Response) => {
       });
 
       if (!updateUser)
-        return res.status(500).json({ message: "Internal server error." });
+        throw res.status(500).json({ message: "Internal server error." });
 
       await generateRefreshToken(res, updateUser.id);
       const newAccToken = generateToken(res, updateUser);
@@ -347,6 +357,67 @@ export const editAccount = (req: Request, res: Response) => {
       });
     } catch (error) {
       console.error(error);
+      return error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  })();
+};
+
+export const deleteAccount = (req: Request, res: Response) => {
+  void (async () => {
+    try {
+      const { password } = req.body as { password: string };
+
+      const token = req.headers.authorization
+        ? req.headers.authorization.split(" ")[1]
+        : null;
+
+      if (!accessTokenEnv || !refreshTokenEnv || !token)
+        throw res.status(404).json({ message: "Token invalid" });
+
+      const user = jwt.verify(token, accessTokenEnv);
+
+      if (!user)
+        throw res.status(500).json({ message: "Internal server error." });
+
+      if (!password)
+        throw res
+          .status(403)
+          .json({ message: "Masukkan password anda untuk menghapus akun." });
+
+      const findUser = await prisma.account.findFirst({
+        where: {
+          id: (user as { id: string }).id,
+        },
+      });
+
+      if (!findUser)
+        throw res.status(500).json({ message: "Internal server error." });
+
+      const isPasswordSame = await bcrypt.compare(password, findUser.password);
+
+      if (!isPasswordSame)
+        throw res.status(401).json({ message: "Password tidak sama." });
+
+      const deleteUser = await prisma.account.delete({
+        where: {
+          id: findUser.id,
+        },
+      });
+
+      if (!deleteUser)
+        throw res.status(401).json({ message: "Password tidak sama." });
+
+      res.clearCookie("refreshtoken");
+
+      return res.json({
+        message:
+          "Berhasil menghapus akun, terimakasih sudah menggunakan layanan kami.",
+      });
+    } catch (error) {
+      console.error(error);
+      return error;
     } finally {
       await prisma.$disconnect();
     }

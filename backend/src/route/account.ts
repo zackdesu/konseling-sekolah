@@ -7,6 +7,7 @@ import {
   getAccount,
   editAccount,
   changePassword,
+  deleteAccount,
 } from "../controller/account";
 import { body } from "express-validator";
 import { isLoggedIn, midWareRegister } from "../middleware/account";
@@ -30,7 +31,8 @@ router
 router
   .route("/account")
   .get(isLoggedIn, getAccount)
-  .put(isLoggedIn, editAccount);
+  .put(isLoggedIn, editAccount)
+  .delete(deleteAccount);
 
 router.put("/password", isLoggedIn, changePassword);
 
