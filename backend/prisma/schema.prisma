@@ -23,19 +23,30 @@ model Account {
   img          String?
   phonenumber  String?
   token        String?      @db.VarChar(600)
-  likedPost    DataPost[]
+  createdPost  DataPost[]
+  likedPost    LikedPost[]
   likedQuotes  DataQuotes[]
 }
 
 model DataPost {
   id        String   @id @default(cuid())
-  username  String
   private   Boolean
   anonym    Boolean
-  likes     Int
   post      String
+  createdTime DateTime @default(now())
+  likes     LikedPost[]
   Account   Account? @relation(fields: [accountId], references: [id])
   accountId String?
+}
+
+model LikedPost {
+  id        String @id @default(cuid())
+  user      Account? @relation(fields: [userId], references: [id])
+  userId    String?
+  post      DataPost? @relation(fields: [postId], references: [id])
+  postId    String?
+
+  @@unique([userId, postId])
 }
 
 model DataQuotes {
