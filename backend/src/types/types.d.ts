@@ -56,3 +56,9 @@ interface IEditable {
   tempatLahir: string;
   tanggalLahir: string;
 }
+
+interface IPost {
+  postVal: string;
+  privateVal: boolean;
+  anonymVal: boolean;
+}
