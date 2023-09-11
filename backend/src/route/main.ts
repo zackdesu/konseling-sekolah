@@ -1,3 +1,4 @@
 import { router as account } from "./account";
+import { router as post } from "./post";
 
-export { account };
+export { account, post };
