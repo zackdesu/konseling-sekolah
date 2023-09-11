@@ -32,7 +32,7 @@ router
   .route("/account")
   .get(isLoggedIn, getAccount)
   .put(isLoggedIn, editAccount)
-  .delete(deleteAccount);
+  .delete(isLoggedIn, deleteAccount);
 
 router.put("/password", isLoggedIn, changePassword);
 
