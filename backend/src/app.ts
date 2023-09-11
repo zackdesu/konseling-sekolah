@@ -1,5 +1,5 @@
 import express, { Express, Request, Response } from "express";
-import { account } from "./route/main";
+import { account, post } from "./route/main";
 import "dotenv/config";
 import cookieParser from "cookie-parser";
 
@@ -33,5 +33,6 @@ app.get("/", (req: Request, res: Response) => {
 });
 
 app.use(account);
+app.use(post);
 
 export default app;
