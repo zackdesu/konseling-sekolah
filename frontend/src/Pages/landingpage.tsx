@@ -21,15 +21,21 @@ const LandingPage = () => {
     desc: string;
     button: string;
   }) => (
-    <div className="w-[300px] h-[410px] bg-zinc-100 border-2 m-8 flex flex-col justify-between shadow-md">
+    <div className="w-[240px] h-[328px] lg:w-[300px] lg:h-[410px] bg-zinc-100 border-2 m-8 flex flex-col justify-between shadow-md">
       <div>
-        <img src={`/${img}.svg`} alt={img} className="w-full h-[296px]" />
+        <img
+          src={`/${img}.svg`}
+          alt={img}
+          className="w-full max-lg:w-[236px] h-[155px] lg:h-[296px]"
+        />
         <h5 className="mx-3">{title}</h5>
         <p className="mx-3 text-zinc-400 text-sm">{desc}</p>
       </div>
       <div className="mb-2 ml-2">
         <Link to={"/" + href}>
-          <button className="normalbutton">{button}</button>
+          <button className="normalbutton">
+            <p>{button}</p>
+          </button>
         </Link>
       </div>
     </div>
