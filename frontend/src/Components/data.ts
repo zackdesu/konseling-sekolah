@@ -2,17 +2,17 @@ export const dataPost: DataPost[] = [
   {
     id: "1",
     username: "zackdesu",
-    private: true,
+    private: false,
     anonym: true,
-    likes: 123,
+    likes: 12345678,
     post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
   },
   {
     id: "2",
     username: "zackdesu",
-    private: true,
+    private: false,
     anonym: true,
-    likes: 123,
+    likes: 1234567,
     post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
   },
   {
@@ -20,7 +20,7 @@ export const dataPost: DataPost[] = [
     username: "jofanctan",
     private: false,
     anonym: false,
-    likes: 123,
+    likes: 123456,
     post: "Banyaknya tuntutan dan masalah-masalah belum terselesaikan.",
   },
   {
@@ -28,7 +28,7 @@ export const dataPost: DataPost[] = [
     username: "kielll97",
     private: false,
     anonym: false,
-    likes: 123,
+    likes: 12345,
     post: "Demam panggung...",
   },
   {
@@ -36,8 +36,16 @@ export const dataPost: DataPost[] = [
     username: "zackdesu",
     private: false,
     anonym: false,
-    likes: 123,
+    likes: 1234,
     post: "Jika aku adalah sebuah burung, mungkin aku akan terbebas dari segala pengekangan yang saya alami.",
+  },
+  {
+    id: "6",
+    username: "zackdesu",
+    private: false,
+    anonym: false,
+    likes: 123,
+    post: "Bebas? Apa itu bebas?",
   },
 ];
 
