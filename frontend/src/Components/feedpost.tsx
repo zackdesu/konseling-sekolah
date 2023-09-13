@@ -29,6 +29,7 @@ const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
 
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
+  const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     refreshAcc<IAPISuccess>()
@@ -73,7 +74,10 @@ const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
             >
               <BiPen className="mr-2" /> Edit
             </Link>
-            <button onClick={handleDelete} className="flex items-center my-1">
+            <button
+              onClick={() => setOpenModal(true)}
+              className="flex items-center my-1"
+            >
               <BiTrash className="mr-2" /> Delete
             </button>
           </>
@@ -92,6 +96,31 @@ const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
   //     : stringLike.length <= 21
   //     ? "B"
   //     : "";
+
+  const DeleteModal = () => (
+    <div className="bg-[rgba(0,0,0,.6)] fixed top-0 right-0 left-0 bottom-0 pt-20 z-10 flex items-center justify-center">
+      <div className="w-[500px] bg-zinc-100 flex flex-col items-center p-5 rounded-xl">
+        <h5>Apakah kamu yakin ingin menghapus postingan ini?</h5>
+        <div>
+          <button
+            className="normalbutton"
+            onClick={() => {
+              handleDelete();
+              setOpenModal(false);
+            }}
+          >
+            Ya, saya yakin.
+          </button>
+          <button
+            className="invertedbutton"
+            onClick={() => setOpenModal(false)}
+          >
+            Tidak jadi.
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <>
@@ -134,6 +163,7 @@ const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
           />
         </div>
       </div>
+      {openModal ? <DeleteModal /> : null}
     </>
   );
 };
