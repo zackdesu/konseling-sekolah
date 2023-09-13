@@ -34,7 +34,7 @@ const CreateFeed = () => {
       anonymVal: currentAnonym.checked,
     };
 
-    if (token) {
+    if (id) {
       api
         .put("/post/" + id, data, {
           headers: { Authorization: "Bearer " + token },
@@ -47,7 +47,10 @@ const CreateFeed = () => {
       return false;
     }
     postThePosts<IAPISuccess>(data, token)
-      .then((res) => alert(res.message))
+      .then((res) => {
+        alert(res.message);
+        navigate("/feed");
+      })
       .catch((err: IAPIError) => alert(err.response.data.message));
   };
 
