@@ -1,11 +1,24 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Redirectuser from "../utils/redirecthome";
+import { api, postThePosts, refreshAcc } from "../api/api";
+import { useNavigate, useParams } from "react-router-dom";
+import { AxiosResponse } from "axios";
 
 const CreateFeed = () => {
   Redirectuser();
+  const { id } = useParams();
   const post = useRef<HTMLTextAreaElement>(null);
   const isPrivate = useRef<HTMLInputElement>(null);
   const isAnonym = useRef<HTMLInputElement>(null);
+  const [token, setToken] = useState<string>("");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    refreshAcc<IAPISuccess>()
+      .then((res) => setToken(res.token))
+      .catch((err: IAPIError) => console.error(err.response.data.message));
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,7 +34,21 @@ const CreateFeed = () => {
       anonymVal: currentAnonym.checked,
     };
 
-    console.log(data);
+    if (token) {
+      api
+        .put("/post/" + id, data, {
+          headers: { Authorization: "Bearer " + token },
+        })
+        .then((res: AxiosResponse<{ message: string }>) => {
+          alert(res.data.message);
+          navigate("/feed");
+        })
+        .catch((err: IAPIError) => console.error(err.response.data.message));
+      return false;
+    }
+    postThePosts<IAPISuccess>(data, token)
+      .then((res) => alert(res.message))
+      .catch((err: IAPIError) => alert(err.response.data.message));
   };
 
   return (
@@ -30,7 +57,7 @@ const CreateFeed = () => {
         onSubmit={handleSubmit}
         className="my-10 flex flex-col items-center"
       >
-        <h2>Create Feed</h2>
+        <h2>{id ? "Edit Feed" : "Create Feed"}</h2>
         <textarea
           rows={5}
           cols={50}
@@ -54,7 +81,7 @@ const CreateFeed = () => {
         </div>
 
         <button type="submit" className="normalbutton">
-          Buat Postingan
+          {id ? "Edit postingan" : "Buat Postingan"}
         </button>
       </form>
     </div>
