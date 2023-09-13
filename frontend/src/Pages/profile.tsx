@@ -1,12 +1,12 @@
 import PostCard from "../Components/postcard";
-import { dataPost } from "../Components/data";
 import { useState, useEffect } from "react";
-import { infoAcc, refreshAcc } from "../api/api";
+import { connectApi, infoAcc, refreshAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 
 const Profile = () => {
   Redirectuser();
 
+  const [posts, setPosts] = useState<DataPost[]>();
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<IProfile>();
 
@@ -26,9 +26,15 @@ const Profile = () => {
       .catch((err: IAPIError) => console.error(err.response.data.message));
   }, [token]);
 
-  const filteredPost = dataPost.filter(
-    (u) => u.username === (user ? user.username : null)
-  );
+  useEffect(() => {
+    connectApi<DataPost[]>("/post")
+      .then((res) => setPosts(res))
+      .catch((err: IAPIError) => console.log(err.response.data.message));
+  }, []);
+
+  const filteredPost = posts
+    ? posts.filter((u) => u.Account.username === (user ? user.username : null))
+    : [];
 
   return (
     <div className="sm:grid max-lg:grid-rows-3 lg:grid-cols-3 md:h-full mx-10 py-20 gap-4">
