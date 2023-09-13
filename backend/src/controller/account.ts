@@ -132,6 +132,9 @@ export const getAccount = (req: Request, res: Response) => {
               where: {
                 id: (user as IProfile).id,
               },
+              include: {
+                likedPost: true,
+              },
             });
 
             if (!data)
@@ -146,6 +149,7 @@ export const getAccount = (req: Request, res: Response) => {
               gender: data.gender,
               mbti: data.mbti,
               img: data.img,
+              likedPost: data.likedPost,
             };
 
             return res.status(200).json(sendData);
@@ -373,13 +377,11 @@ export const editAccount = (req: Request, res: Response) => {
         void (async () => {
           try {
             if (err)
-              if (!user)
-                throw res
-                  .status(404)
-                  .json({
-                    message: "Sesi kadaluwarsa, silahkan login kembali.",
-                  });
-            throw res.status(500).json({ message: "Internal server error." });
+              throw res.status(500).json({ message: "Internal server error." });
+            if (!user)
+              throw res.status(404).json({
+                message: "Sesi kadaluwarsa, silahkan login kembali.",
+              });
 
             const updateUser = await prisma.account.update({
               where: {

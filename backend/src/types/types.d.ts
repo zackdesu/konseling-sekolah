@@ -39,6 +39,12 @@ interface IProfile {
   gender: string;
   img: string | null;
   mbti: string | null;
+  likedPost?: ILikedPost[];
+}
+
+interface ILikedPost {
+  userId: string | null;
+  postId: string | null;
 }
 
 interface ILogin {
