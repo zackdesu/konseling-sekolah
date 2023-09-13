@@ -1,10 +1,15 @@
 interface DataPost {
   id: string;
-  username: string;
   private: boolean;
   anonym: boolean;
-  likes: number;
   post: string;
+  likes: ILikedPost[];
+  Account: {
+    img: string | null;
+    mbti: string | null;
+    username: string;
+    realname: string;
+  };
 }
 
 interface User {
@@ -32,6 +37,7 @@ interface IProfile {
   gender: string;
   img: string | null;
   mbti: string | null;
+  likedPost?: DataPost[];
 }
 
 interface DataQuotes {
@@ -52,7 +58,7 @@ interface IRegisterData {
 }
 
 interface IAPISuccess {
-  token?: string | null;
+  token: string;
   message: string;
   data: IToken;
 }
@@ -69,4 +75,10 @@ interface IToken {
   img: string | null;
   exp: number;
   iat: number;
+}
+
+interface ILikedPost {
+  id: string;
+  userId: string;
+  postId: string;
 }
