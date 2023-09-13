@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import prisma from "../utils/prisma";
 import jwt from "jsonwebtoken";
+import featLike from "../utils/featLike";
 
 const accessTokenEnv = process.env.ACCESS_TOKEN_SECRET;
+const refreshTokenEnv = process.env.REFRESH_TOKEN_SECRET;
 
 export const createPost = (req: Request, res: Response) => {
   void (async () => {
@@ -83,6 +85,7 @@ export const getPosts = (req: Request, res: Response) => {
               img: true,
             },
           },
+          likes: true,
         },
       });
 
@@ -231,6 +234,33 @@ export const deletePost = (req: Request, res: Response) => {
           } finally {
             await prisma.$disconnect();
           }
+        })();
+      });
+    } catch (error) {
+      console.error(error);
+      return error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  })();
+};
+
+export const likePost = (req: Request, res: Response) => {
+  void (async () => {
+    try {
+      const id = req.params.id;
+
+      const { refreshtoken } = req.cookies as ICookie;
+
+      if (!refreshtoken || !refreshTokenEnv)
+        throw res.status(404).json({ message: "Token invalid / undefined" });
+
+      jwt.verify(refreshtoken, refreshTokenEnv, (err, user) => {
+        void (async () => {
+          if (!user || err)
+            return res.status(404).json({ message: "Account not found." });
+
+          await featLike(res, (user as { id: string }).id, id);
         })();
       });
     } catch (error) {
