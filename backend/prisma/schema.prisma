@@ -40,11 +40,10 @@ model DataPost {
 }
 
 model LikedPost {
-  id        String @id @default(cuid())
   user      Account? @relation(fields: [userId], references: [id])
-  userId    String?
+  userId    String
   post      DataPost? @relation(fields: [postId], references: [id])
-  postId    String?
+  postId    String
 
   @@unique([userId, postId])
 }
