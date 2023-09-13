@@ -120,6 +120,16 @@ function App() {
           element={
             <>
               <Navbar />
+              <CreateFeed />
+              <Menu />
+            </>
+          }
+          path="/editfeed/:id"
+        />
+        <Route
+          element={
+            <>
+              <Navbar />
               <Talks />
               <Menu />
             </>
