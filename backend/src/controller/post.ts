@@ -161,7 +161,7 @@ export const editPost = (req: Request, res: Response) => {
             if (!updatePost)
               throw res.status(500).json({ message: "Internal server error." });
 
-            return res.json({ message: "Berhasil menghapus postingan." });
+            return res.json({ message: "Berhasil memperbarui postingan." });
           } catch (error) {
             console.error(error);
             return error;
@@ -224,7 +224,7 @@ export const deletePost = (req: Request, res: Response) => {
             if (!updatePost)
               throw res.status(500).json({ message: "Internal server error." });
 
-            return res.json({ message: "Berhasil memperbarui postingan." });
+            return res.json({ message: "Berhasil menghapus postingan." });
           } catch (error) {
             console.error(error);
             return error;
