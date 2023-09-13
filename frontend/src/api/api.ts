@@ -18,6 +18,18 @@ export const connectApi = async <T>(
 
   return res.data;
 };
+export const postThePosts = async <T>(data: unknown, token: string) => {
+  const res: AxiosResponse<T> = await api({
+    url: "/post",
+    method: "POST",
+    data,
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  return res.data;
+};
 
 // api.interceptors.request.use(
 //   async (config) => {
