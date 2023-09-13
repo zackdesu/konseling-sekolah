@@ -80,6 +80,7 @@ export const getPosts = (req: Request, res: Response) => {
               username: true,
               realname: true,
               mbti: true,
+              img: true,
             },
           },
         },
