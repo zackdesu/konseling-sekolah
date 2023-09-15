@@ -11,6 +11,7 @@ const Feed = () => {
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<IProfile>();
   const [loading, setLoading] = useState(true);
+  const [isReversed, setIsReversed] = useState(false);
 
   useEffect(() => {
     refreshAcc<IAPISuccess>()
@@ -30,10 +31,29 @@ const Feed = () => {
     setLoading(false);
   }, [token]);
 
+  const fetchData = () =>
+    void (() => {
+      connectApi<DataPost[]>("/post")
+        .then((res) => {
+          const reversedData = isReversed ? res : res ? res.reverse() : [];
+
+          setDataPost(reversedData);
+          setIsReversed(true);
+        })
+        .catch((err: IAPIError) => console.log(err.response.data.message));
+    })();
+
   useEffect(() => {
-    connectApi<DataPost[]>("/post")
-      .then((res) => setDataPost(res))
-      .catch((err: IAPIError) => console.log(err.response.data.message));
+    const intervalId = setInterval(() => {
+      fetchData();
+    }, 1000);
+
+    fetchData();
+
+    return () => {
+      clearInterval(intervalId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -47,8 +67,15 @@ const Feed = () => {
           ? dataPost
             ? dataPost
                 .filter((e) => !e.private)
-                .map((e, i) => <FeedPost data={e} key={i} user={user} />)
-            : null
+                .map((e, i) => (
+                  <FeedPost
+                    data={e}
+                    key={i}
+                    user={user}
+                    func={() => fetchData()}
+                  />
+                ))
+            : "Postingan tidak ditemukan..."
           : "Loading..."}
       </div>
     </>
