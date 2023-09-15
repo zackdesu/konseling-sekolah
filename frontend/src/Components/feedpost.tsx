@@ -5,27 +5,32 @@ import { BiPen, BiTrash } from "react-icons/bi";
 import { api, refreshAcc } from "../api/api";
 import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
-  // const [liked, setLiked] = useState<boolean>();
-  // const [likes, setLikes] = useState(data.likes ? data.likes.length : 0);
+const FeedPost = ({
+  data,
+  user,
+  func,
+}: {
+  data: DataPost;
+  user?: IProfile;
+  func: () => undefined;
+}) => {
+  const findLike = data.likes.find(
+    (data) => data.userId === (user ? user.id : null)
+  )
+    ? true
+    : false;
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  // const handleLikeClick = () => {
-  //   if(!user) return navigate('/')
-  //   if (liked) {
-  //     setLiked(false);
-  //     setLikes(likes - 1);
-  //     user.likedPost = user.likedPost ? user.likedPost.filter((post) => post.id !== data.id) : undefined
-  //   } else {
-  //     setLiked(true);
-  //     setLikes(likes + 1);
-  //     user.likedPost ? user.likedPost.push({ id: data.id }) : null
-  //   }
-  //   console.log(user.likedPost);
-  // };
+  const handleLikeClick = () => {
+    if (!user) return navigate("/");
+    api
+      .post(`/post/${data.id}`)
+      .then(() => void (() => func)())
+      .catch((err: IAPIError) => console.error(err.response.data.message));
+  };
 
   const [open, setOpen] = useState(false);
   const [token, setToken] = useState("");
@@ -66,7 +71,8 @@ const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
         <button className="flex items-center text-red-600 my-1">
           <CiWarning className="mr-2" /> Report
         </button>
-        {data.Account.username == (user ? user.username : null) ? (
+        {data.Account.username == (user ? user.username : null) ||
+        user?.isAdmin ? (
           <>
             <Link
               to={"/editfeed/" + data.id}
@@ -131,26 +137,26 @@ const FeedPost = ({ data, user }: { data: DataPost; user?: IProfile }) => {
             width={30}
             className="rounded-full"
           />
-          <p className="ml-3">
+          <h6 className="ml-3">
             {!data.anonym ? data.Account.username : "Anonym"}
-          </p>
+          </h6>
           <span className="mx-2">·</span>
           <p className="text-zinc-400">3d</p>
         </div>
-        <p className="text-xs sm:text-base py-4 px-10">{data.post}</p>
-        <div className="flex items-center justify-between border-t py-1 mx-10">
-          <div className="flex items-center">
-            {/* <span onClick={handleLikeClick}>
-              <AiFillLike className={liked ? "text-blue-500" : ""} />
+        <p className="text-xs sm:text-base my-4 px-10">{data.post}</p>
+        <div className="flex items-center justify-between border-t py-1 mx-2 md:mx-5">
+          <div className="flex items-center cursor-pointer">
+            <span onClick={handleLikeClick}>
+              <AiFillLike className={findLike ? "text-blue-500" : ""} />
             </span>
-            <p className="ml-4 text-sm">
+            {/* <p className="ml-4 text-sm">
               {stringLike.length > 4
                 ? stringLike.split(",")[0] + nominal
                 : stringLike}
             </p> */}
-            <span>
+            {/* <span>
               <AiFillLike />
-            </span>
+            </span> */}
             <p className="ml-4 text-sm">{data.likes ? data.likes.length : 0}</p>
           </div>
           <button ref={buttonRef} onClick={() => setOpen(!open)}>
