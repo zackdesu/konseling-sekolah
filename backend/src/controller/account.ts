@@ -87,6 +87,7 @@ export const postLogin = (req: Request, res: Response) => {
         gender: user.gender,
         mbti: user.mbti,
         img: user.img,
+        isAdmin: user.isAdmin,
       };
 
       await generateRefreshToken(res, data.id);
@@ -150,6 +151,7 @@ export const getAccount = (req: Request, res: Response) => {
               mbti: data.mbti,
               img: data.img,
               likedPost: data.likedPost,
+              isAdmin: data.isAdmin,
             };
 
             return res.status(200).json(sendData);
@@ -191,6 +193,7 @@ export const refreshUserToken = (req: Request, res: Response) => {
         gender: findUser.gender,
         mbti: findUser.mbti,
         img: findUser.img,
+        isAdmin: findUser.isAdmin,
       };
 
       const token = generateToken(res, data);
@@ -329,6 +332,7 @@ export const changePassword = (req: Request, res: Response) => {
               gender: changePassword.gender,
               mbti: changePassword.mbti,
               img: changePassword.img,
+              isAdmin: changePassword.isAdmin,
             };
 
             await generateRefreshToken(res, sendData.id);
