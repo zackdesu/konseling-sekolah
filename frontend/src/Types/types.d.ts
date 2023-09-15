@@ -38,6 +38,7 @@ interface IProfile {
   img: string | null;
   mbti: string | null;
   likedPost?: DataPost[];
+  isAdmin: boolean;
 }
 
 interface DataQuotes {
@@ -78,7 +79,6 @@ interface IToken {
 }
 
 interface ILikedPost {
-  id: string;
   userId: string;
   postId: string;
 }
