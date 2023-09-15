@@ -9,7 +9,7 @@ const LandingPage = () => {
   Redirectuser();
 
   const Card = ({
-    href = "talks",
+    href = "/talks",
     img = "sharing",
     title,
     desc,
@@ -32,11 +32,19 @@ const LandingPage = () => {
         <p className="mx-3 text-zinc-400 text-sm">{desc}</p>
       </div>
       <div className="mb-2 ml-2">
-        <Link to={"/" + href}>
-          <button className="normalbutton">
-            <p>{button}</p>
-          </button>
-        </Link>
+        {href.includes("http") ? (
+          <a href={href} target="_blank" rel="noreferrer">
+            <button className="normalbutton">
+              <p>{button}</p>
+            </button>
+          </a>
+        ) : (
+          <Link to={href}>
+            <button className="normalbutton">
+              <p>{button}</p>
+            </button>
+          </Link>
+        )}
       </div>
     </div>
   );
@@ -84,6 +92,7 @@ const LandingPage = () => {
           title="Tes Kepribadian"
           desc="Cek Kepribadianmu disini"
           button="Lihat tes"
+          href="https://satupersen.net/quizzes"
         />
         <Card
           img="reflection"
