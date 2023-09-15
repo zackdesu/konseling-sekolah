@@ -23,6 +23,7 @@ interface User {
   tanggalLahir: Date;
   gender: string;
   password: string;
+  isAdmin: boolean;
   img: string | null;
   likedPost?: DataPost[];
   likedQuotes?: DataQuotes[];
@@ -40,6 +41,7 @@ interface IProfile {
   img: string | null;
   mbti: string | null;
   likedPost?: ILikedPost[];
+  isAdmin: boolean;
 }
 
 interface ILikedPost {
