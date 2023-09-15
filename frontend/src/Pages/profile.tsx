@@ -1,14 +1,15 @@
-import PostCard from "../Components/postcard";
 import { useState, useEffect } from "react";
 import { connectApi, infoAcc, refreshAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
+import FeedPost from "../Components/feedpost";
 
 const Profile = () => {
   Redirectuser();
 
-  const [posts, setPosts] = useState<DataPost[]>();
+  const [dataPost, setDataPost] = useState<DataPost[]>();
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<IProfile>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     refreshAcc<IAPISuccess>()
@@ -24,16 +25,25 @@ const Profile = () => {
     infoAcc<IProfile>(token)
       .then((res) => setUser(res))
       .catch((err: IAPIError) => console.error(err.response.data.message));
+
+    setLoading(false);
   }, [token]);
 
+  const fetchData = () =>
+    void (() => {
+      connectApi<DataPost[]>("/post")
+        .then((res) => setDataPost(res))
+        .catch((err: IAPIError) => console.log(err.response.data.message));
+    })();
+
   useEffect(() => {
-    connectApi<DataPost[]>("/post")
-      .then((res) => setPosts(res))
-      .catch((err: IAPIError) => console.log(err.response.data.message));
+    fetchData();
   }, []);
 
-  const filteredPost = posts
-    ? posts.filter((u) => u.Account.username === (user ? user.username : null))
+  const filteredPost = dataPost
+    ? dataPost.filter(
+        (post) => post.Account.username === (user ? user.username : null)
+      )
     : [];
 
   return (
@@ -56,13 +66,19 @@ const Profile = () => {
         </button>
       </div>
 
-      <div className="w-full sm:w-[90%] max-lg:row-span-3 lg:col-span-2 mx-auto lg:mx-5 py-5 flex flex-wrap overflow-y-auto">
-        {filteredPost.length > 0 ? (
-          filteredPost.map((e, i) => <PostCard data={e} key={i} />)
+      <div className="w-full sm:w-[90%] mx-auto col-span-2 overflow-y-auto">
+        {!loading ? (
+          filteredPost.length > 0 ? (
+            filteredPost.map((e, i) => (
+              <FeedPost data={e} key={i} user={user} func={fetchData} />
+            ))
+          ) : (
+            <div className="flex items-center justify-center w-full h-full text-center">
+              Sepertinya kamu belum pernah <br /> membuat postingan sebelumnya
+            </div>
+          )
         ) : (
-          <div className="flex items-center justify-center w-full h-full text-center">
-            Sepertinya kamu belum pernah <br /> membuat postingan sebelumnya
-          </div>
+          "Loading..."
         )}
       </div>
     </div>
