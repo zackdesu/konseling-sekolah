@@ -213,10 +213,11 @@ export const deletePost = (req: Request, res: Response) => {
                 .status(404)
                 .json({ message: "Postingan tidak ditemukan." });
 
-            if (findPost.accountId !== (user as { id: string }).id)
-              throw res.status(401).json({
-                message: "Kamu bukan orang yang memiliki postingan ini!",
-              });
+            if (!(user as { isAdmin: boolean }).isAdmin)
+              if (findPost.accountId !== (user as { id: string }).id)
+                throw res.status(401).json({
+                  message: "Kamu bukan orang yang memiliki postingan ini!",
+                });
 
             const updatePost = await prisma.dataPost.delete({
               where: {
@@ -257,10 +258,17 @@ export const likePost = (req: Request, res: Response) => {
 
       jwt.verify(refreshtoken, refreshTokenEnv, (err, user) => {
         void (async () => {
-          if (!user || err)
-            return res.status(404).json({ message: "Account not found." });
+          try {
+            if (!user || err)
+              return res.status(404).json({ message: "Account not found." });
 
-          await featLike(res, (user as { id: string }).id, id);
+            await featLike(res, (user as { id: string }).id, id);
+          } catch (error) {
+            console.error(error);
+            return error;
+          } finally {
+            await prisma.$disconnect();
+          }
         })();
       });
     } catch (error) {
