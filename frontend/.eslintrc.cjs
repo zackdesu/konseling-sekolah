@@ -25,6 +25,7 @@ module.exports = {
       "warn",
       { allowConstantExport: true },
     ],
+    "@typescript-eslint/prefer-optional-chain": 0,
   },
   parserOptions: {
     ecmaVersion: "latest",
