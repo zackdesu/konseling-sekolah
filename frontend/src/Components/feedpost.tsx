@@ -14,8 +14,10 @@ const FeedPost = ({
 }: {
   data: DataPost;
   user?: IProfile;
-  func: () => undefined;
+  func: (...args: never[]) => void;
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const findLike = data.likes.find(
     (data) => data.userId === (user ? user.id : null)
   )
@@ -26,10 +28,12 @@ const FeedPost = ({
 
   const handleLikeClick = () => {
     if (!user) return navigate("/");
+    setLoading(true);
     api
       .post(`/post/${data.id}`)
-      .then(() => void (() => func)())
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .then(() => func())
+      .catch((err: IAPIError) => console.error(err.response.data.message))
+      .finally(() => setTimeout(() => setLoading(false), 1000));
   };
 
   const [open, setOpen] = useState(false);
@@ -71,8 +75,8 @@ const FeedPost = ({
         <button className="flex items-center text-red-600 my-1">
           <CiWarning className="mr-2" /> Report
         </button>
-        {data.Account.username == (user ? user.username : null) ||
-        user?.isAdmin ? (
+        {data.Account.username == (user && user.username) ||
+        (user && user.isAdmin) ? (
           <>
             <Link
               to={"/editfeed/" + data.id}
@@ -145,10 +149,12 @@ const FeedPost = ({
         </div>
         <p className="text-xs sm:text-base my-4 px-10">{data.post}</p>
         <div className="flex items-center justify-between border-t py-1 mx-2 md:mx-5">
-          <div className="flex items-center cursor-pointer">
-            <span onClick={handleLikeClick}>
-              <AiFillLike className={findLike ? "text-blue-500" : ""} />
-            </span>
+          <div className="flex items-center">
+            <button disabled={loading} onClick={handleLikeClick}>
+              <AiFillLike
+                className={`cursor-pointer ${findLike ? "text-blue-500" : ""}`}
+              />
+            </button>
             {/* <p className="ml-4 text-sm">
               {stringLike.length > 4
                 ? stringLike.split(",")[0] + nominal
