@@ -11,7 +11,6 @@ const Feed = () => {
   const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<IProfile>();
   const [loading, setLoading] = useState(true);
-  const [isReversed, setIsReversed] = useState(false);
 
   useEffect(() => {
     refreshAcc<IAPISuccess>()
@@ -35,10 +34,7 @@ const Feed = () => {
     void (() => {
       connectApi<DataPost[]>("/post")
         .then((res) => {
-          const reversedData = isReversed ? res : res ? res.reverse() : [];
-
-          setDataPost(reversedData);
-          setIsReversed(true);
+          setDataPost(res);
         })
         .catch((err: IAPIError) => console.log(err.response.data.message));
     })();
@@ -46,7 +42,7 @@ const Feed = () => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       fetchData();
-    }, 1000);
+    }, 5000);
 
     fetchData();
 
@@ -67,13 +63,9 @@ const Feed = () => {
           ? dataPost
             ? dataPost
                 .filter((e) => !e.private)
+                .reverse()
                 .map((e, i) => (
-                  <FeedPost
-                    data={e}
-                    key={i}
-                    user={user}
-                    func={() => fetchData()}
-                  />
+                  <FeedPost data={e} key={i} user={user} func={fetchData} />
                 ))
             : "Postingan tidak ditemukan..."
           : "Loading..."}
