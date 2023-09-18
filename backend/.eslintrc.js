@@ -28,5 +28,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
   },
   ignorePatterns: [".eslintrc.js"],
-  rules: {},
+  rules: {
+    "@typescript-eslint/prefer-optional-chain": 0,
+  },
 };
