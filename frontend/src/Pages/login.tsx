@@ -1,6 +1,7 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { connectApi } from "../api/api";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 interface Data {
   username: string;
@@ -11,6 +12,7 @@ const Login = () => {
   const navigate = useNavigate();
   const refUsername = useRef<HTMLInputElement>(null);
   const refPassword = useRef<HTMLInputElement>(null);
+  const [loading, setLoading] = useState(false);
 
   const formSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,12 +24,14 @@ const Login = () => {
       username: refUsername.current?.value,
       password: refPassword.current?.value,
     };
+    setLoading(true);
     connectApi<IAPISuccess>("/login", "POST", data)
       .then((res) => {
         console.log(res.message);
         return navigate("/");
       })
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .catch((err: IAPIError) => console.error(err.response.data.message))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -35,7 +39,7 @@ const Login = () => {
       onSubmit={formSubmit}
       className="flex flex-col items-center justify-center h-full w-full"
     >
-      <h2 className="my-8 text-zinc-800">Masuk ke Akun</h2>
+      <h1 className="my-8 text-zinc-800">Masuk ke Akun</h1>
       <label htmlFor="username" className="labelinput">
         Nama Lengkap
       </label>
@@ -57,8 +61,16 @@ const Login = () => {
         className="userinput"
         ref={refPassword}
       />
-      <button type="submit" className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4">
-        Submit
+      <button
+        type="submit"
+        disabled={loading}
+        className="normalbutton w-9/12 sm:w-1/3 lg:w-1/4 disabled:opacity-70"
+      >
+        {loading ? (
+          <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" />
+        ) : (
+          "Submit"
+        )}
       </button>
       <p className="mt-2">
         Belum punya akun?{" "}
