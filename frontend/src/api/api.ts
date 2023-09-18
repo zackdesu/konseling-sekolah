@@ -1,19 +1,21 @@
 import axios, { AxiosResponse } from "axios";
 
 export const api = axios.create({
-  baseURL: "http://localhost:3000",
+  baseURL: import.meta.env.VITE_BASE_URL as string,
   withCredentials: true,
 });
 
 export const connectApi = async <T>(
   url: string,
   method = "GET",
-  data?: unknown
+  data?: unknown,
+  object?: object
 ) => {
   const res: AxiosResponse<T> = await api({
     url,
     method: method.toUpperCase(),
     data,
+    ...object,
   });
 
   return res.data;
