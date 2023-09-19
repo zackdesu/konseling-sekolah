@@ -219,13 +219,25 @@ export const deletePost = (req: Request, res: Response) => {
                   message: "Kamu bukan orang yang memiliki postingan ini!",
                 });
 
-            const updatePost = await prisma.dataPost.delete({
+            await prisma.likedPost.delete({
               where: {
-                id: findPost.id,
+                userId_postId: {
+                  postId: id,
+                  userId: (user as { id: string }).id,
+                },
               },
             });
 
-            if (!updatePost)
+            const deletePost = await prisma.dataPost.delete({
+              where: {
+                id,
+              },
+              include: {
+                likes: true,
+              },
+            });
+
+            if (!deletePost)
               throw res.status(500).json({ message: "Internal server error." });
 
             return res.json({ message: "Berhasil menghapus postingan." });
