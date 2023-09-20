@@ -1,8 +1,8 @@
 import { CiMenuKebab, CiWarning } from "react-icons/ci";
 import { AiFillLike } from "react-icons/ai";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { BiPen, BiTrash } from "react-icons/bi";
-import { api, refreshAcc } from "../api/api";
+import { api } from "../api/api";
 import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -10,9 +10,11 @@ import { useNavigate } from "react-router-dom";
 const FeedPost = ({
   data,
   user,
+  token,
   func,
 }: {
   data: DataPost;
+  token: string;
   user?: IProfile;
   func: (...args: never[]) => void;
 }) => {
@@ -33,18 +35,11 @@ const FeedPost = ({
       .post(`/post/${data.id}`)
       .then(() => func())
       .catch((err: IAPIError) => console.error(err.response.data.message))
-      .finally(() => setTimeout(() => setLoading(false), 1000));
+      .finally(() => setLoading(false));
   };
 
   const [open, setOpen] = useState(false);
-  const [token, setToken] = useState("");
   const [openModal, setOpenModal] = useState(false);
-
-  useEffect(() => {
-    refreshAcc<IAPISuccess>()
-      .then((res) => setToken(res.token))
-      .catch((err: IAPIError) => console.error(err.response.data.message));
-  });
 
   const buttonRef = useRef<HTMLButtonElement>(null);
   document.addEventListener("click", (e) => {
@@ -96,16 +91,18 @@ const FeedPost = ({
     );
   };
 
-  // const stringLike = likes.toLocaleString();
+  const stringLike = data.likes.length.toLocaleString();
 
-  // const nominal =
-  //   stringLike.length <= 7
-  //     ? "K"
-  //     : stringLike.length <= 14
-  //     ? "M"
-  //     : stringLike.length <= 21
-  //     ? "B"
-  //     : "";
+  const nominal =
+    stringLike.length <= 3
+      ? data.likes.length
+      : stringLike.length <= 7
+      ? "K"
+      : stringLike.length <= 14
+      ? "M"
+      : stringLike.length <= 21
+      ? "B"
+      : "";
 
   const DeleteModal = () => (
     <div className="bg-[rgba(0,0,0,.6)] fixed top-0 right-0 left-0 bottom-0 pt-20 z-10 flex items-center justify-center">
@@ -155,15 +152,11 @@ const FeedPost = ({
                 className={`cursor-pointer ${findLike ? "text-blue-500" : ""}`}
               />
             </button>
-            {/* <p className="ml-4 text-sm">
+            <p className="ml-4 text-sm">
               {stringLike.length > 4
                 ? stringLike.split(",")[0] + nominal
                 : stringLike}
-            </p> */}
-            {/* <span>
-              <AiFillLike />
-            </span> */}
-            <p className="ml-4 text-sm">{data.likes ? data.likes.length : 0}</p>
+            </p>
           </div>
           <button ref={buttonRef} onClick={() => setOpen(!open)}>
             <CiMenuKebab />

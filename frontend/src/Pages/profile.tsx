@@ -42,7 +42,7 @@ const Profile = () => {
 
   const filteredPost = dataPost
     ? dataPost.filter(
-        (post) => post.Account.username === (user ? user.username : null)
+        (post) => post.Account.username === (user && user.username)
       )
     : [];
 
@@ -53,12 +53,11 @@ const Profile = () => {
           src="/unknown.jpg"
           className="max-w-[240px] max-sm:w-2/6 max-lg:w-full lg:w-9/12 max-lg:row-span-2 place-self-center rounded-full"
         />
-        <h1 className="max-sm:text-center max-sm:mt-5 lg:mt-3 lg:mb-1 max-lg:col-span-3 max-sm:self-center max-lg:self-end sm:ml-5">
-          {user ? user.realname : null}
-        </h1>
+        <h2 className="max-sm:text-center max-sm:mt-5 lg:mt-3 lg:mb-1 max-lg:col-span-3 max-sm:self-center max-lg:self-end sm:ml-5">
+          {user && user.realname}
+        </h2>
         <p className="text-zinc-400 mt-2 max-lg:col-span-2 max-sm:self-center lg:mb-1 sm:ml-6">
-          {user ? user.gender : null} ·{" "}
-          {user ? (user.mbti ? user.mbti : "Set MBTI") : null}
+          {user && user.gender} · {user && (user.mbti ? user.mbti : "Set MBTI")}
         </p>
         <p className="max-lg:hidden sm:ml-6">Belum ada bio.</p>
         <button className="invertedbutton w-3/4 max-lg:col-start-5 max-lg:col-span-2 max-lg:row-span-2 place-self-center">
@@ -70,7 +69,13 @@ const Profile = () => {
         {!loading ? (
           filteredPost.length > 0 ? (
             filteredPost.map((e, i) => (
-              <FeedPost data={e} key={i} user={user} func={fetchData} />
+              <FeedPost
+                data={e}
+                key={i}
+                user={user}
+                token={token}
+                func={fetchData}
+              />
             ))
           ) : (
             <div className="flex items-center justify-center w-full h-full text-center">
