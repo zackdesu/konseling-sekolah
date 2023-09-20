@@ -104,6 +104,40 @@ export const getPosts = (req: Request, res: Response) => {
   })();
 };
 
+export const getOnePost = (req: Request, res: Response) => {
+  void (async () => {
+    try {
+      const id = req.params.id;
+      const post = await prisma.dataPost.findFirst({
+        where: {
+          id,
+        },
+        include: {
+          Account: {
+            select: {
+              username: true,
+              realname: true,
+              mbti: true,
+              img: true,
+            },
+          },
+          likes: true,
+        },
+      });
+
+      if (!post)
+        throw res.status(404).json({ message: "Postingan tidak ditemukan" });
+
+      return res.json(post);
+    } catch (error) {
+      console.error(error);
+      return error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  })();
+};
+
 export const editPost = (req: Request, res: Response) => {
   void (async () => {
     try {

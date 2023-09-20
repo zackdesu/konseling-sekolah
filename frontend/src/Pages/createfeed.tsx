@@ -1,6 +1,6 @@
 import { FormEvent, useEffect, useRef, useState } from "react";
 import Redirectuser from "../utils/redirecthome";
-import { api, postThePosts, refreshAcc } from "../api/api";
+import { api, connectApi, postThePosts, refreshAcc } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
 
@@ -13,13 +13,20 @@ const CreateFeed = () => {
   const [token, setToken] = useState<string>("");
 
   const navigate = useNavigate();
+  const [data, setData] = useState<DataPost>();
 
   useEffect(() => {
     refreshAcc<IAPISuccess>()
       .then((res) => setToken(res.token))
       .catch((err: IAPIError) => console.error(err.response.data.message));
-  }, []);
 
+    if (!id) return;
+    connectApi<DataPost>(`/post/${id}`)
+      .then((res) => setData(res))
+      .catch((err: IAPIError) => console.error(err));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currentPost = post.current;
@@ -68,6 +75,8 @@ const CreateFeed = () => {
           className="my-5 border outline-none p-1 w-11/12 md:w-1/2"
           ref={post}
           placeholder="Apa yang sedang anda pikirkan..."
+          value={data && data.post}
+          onChange={(e) => data && setData({ ...data, post: e.target.value })}
         />
 
         <div className="">
@@ -77,13 +86,26 @@ const CreateFeed = () => {
               name="private"
               id="private"
               ref={isPrivate}
+              checked={data && data.private}
+              onChange={(e) =>
+                data && setData({ ...data, private: e.target.checked })
+              }
             />
             <label htmlFor="private" className="ml-5 text-xs md:text-base">
               Jadikan sebagai pribadi / private
             </label>
           </div>
           <div className="flex ml-3 mb-5 self-start">
-            <input type="checkbox" name="anonym" id="anonym" ref={isAnonym} />
+            <input
+              type="checkbox"
+              name="anonym"
+              id="anonym"
+              ref={isAnonym}
+              checked={data && data.anonym}
+              onChange={(e) =>
+                data && setData({ ...data, anonym: e.target.checked })
+              }
+            />
             <label htmlFor="anonym" className="ml-5 text-xs md:text-base">
               Jadikan sebagai anonim (tidak diketahui)
             </label>
