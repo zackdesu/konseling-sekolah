@@ -64,6 +64,10 @@ interface IAPISuccess {
   data: IToken;
 }
 
+interface IAPIToken {
+  token: string;
+}
+
 interface IAPIError {
   response: { data: { message: string } };
 }
