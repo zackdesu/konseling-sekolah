@@ -64,7 +64,7 @@ const Login = () => {
       <button
         type="submit"
         disabled={loading}
-        className="normalbutton w-9/12 sm:w-1/3 lg:w-1/4 disabled:opacity-70"
+        className="normalbutton w-9/12 sm:w-1/3 lg:w-1/4"
       >
         {loading ? (
           <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" />

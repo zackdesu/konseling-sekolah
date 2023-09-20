@@ -150,7 +150,7 @@ const Register = () => {
       </div>
       <button
         disabled={loading}
-        className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4 disabled:opacity-70"
+        className="normalbutton w-1/2 sm:w-1/3 lg:w-1/4"
       >
         {" "}
         {loading ? (
