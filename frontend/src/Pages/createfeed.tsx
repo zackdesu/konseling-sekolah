@@ -63,24 +63,31 @@ const CreateFeed = () => {
         <h2>{id ? "Edit Feed" : "Create Feed"}</h2>
         <textarea
           rows={5}
-          cols={50}
           name="post"
           id="post"
-          className="my-5 border outline-none p-1"
+          className="my-5 border outline-none p-1 w-11/12 md:w-1/2"
           ref={post}
+          placeholder="Apa yang sedang anda pikirkan..."
         />
 
-        <div className="flex mb-2">
-          <input type="checkbox" name="private" id="private" ref={isPrivate} />
-          <label htmlFor="private" className="ml-5">
-            Jadikan sebagai pribadi / private
-          </label>
-        </div>
-        <div className="flex mb-5">
-          <input type="checkbox" name="anonym" id="anonym" ref={isAnonym} />
-          <label htmlFor="anonym" className="ml-5">
-            Jadikan sebagai anonim (tidak diketahui)
-          </label>
+        <div className="">
+          <div className="flex ml-3 mb-2">
+            <input
+              type="checkbox"
+              name="private"
+              id="private"
+              ref={isPrivate}
+            />
+            <label htmlFor="private" className="ml-5 text-xs md:text-base">
+              Jadikan sebagai pribadi / private
+            </label>
+          </div>
+          <div className="flex ml-3 mb-5 self-start">
+            <input type="checkbox" name="anonym" id="anonym" ref={isAnonym} />
+            <label htmlFor="anonym" className="ml-5 text-xs md:text-base">
+              Jadikan sebagai anonim (tidak diketahui)
+            </label>
+          </div>
         </div>
 
         <button type="submit" className="normalbutton">
