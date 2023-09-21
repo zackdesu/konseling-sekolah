@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 export const api = axios.create({
   baseURL: import.meta.env.VITE_BASE_URL as string,
@@ -9,7 +9,7 @@ export const connectApi = async <T>(
   url: string,
   method = "GET",
   data?: unknown,
-  object?: object
+  object?: AxiosRequestConfig
 ) => {
   const res: AxiosResponse<T> = await api({
     url,
