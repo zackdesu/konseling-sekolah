@@ -317,7 +317,7 @@ export const deletePost = (req: Request, res: Response) => {
                   message: "Kamu bukan orang yang memiliki postingan ini!",
                 });
 
-            await prisma.likedPost.delete({
+            const likedPost = await prisma.likedPost.findUnique({
               where: {
                 userId_postId: {
                   postId: id,
@@ -325,6 +325,14 @@ export const deletePost = (req: Request, res: Response) => {
                 },
               },
             });
+
+            if (likedPost) {
+              await prisma.likedPost.delete({
+                where: {
+                  userId_postId: likedPost,
+                },
+              });
+            }
 
             const deletePost = await prisma.dataPost.delete({
               where: {
