@@ -35,7 +35,7 @@ router
 router
   .route("/account")
   .get(isLoggedIn, getAccount)
-  .put(isLoggedIn, editAccount)
+  .put(isLoggedIn, isUsernameValid, isRealNameValid, editAccount)
   .delete(isLoggedIn, deleteAccount);
 
 router.put("/password", isLoggedIn, changePassword);
