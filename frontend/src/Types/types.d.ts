@@ -9,7 +9,7 @@ interface DataPost {
     mbti: string | null;
     username: string;
     realname: string;
-  };
+  } | null;
 }
 
 interface User {
