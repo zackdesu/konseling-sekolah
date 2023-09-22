@@ -2,6 +2,7 @@ import { FormEvent, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { connectApi } from "../api/api";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
+import toast from "react-hot-toast";
 
 interface Data {
   username: string;
@@ -27,10 +28,10 @@ const Login = () => {
     setLoading(true);
     connectApi<IAPISuccess>("/login", "POST", data)
       .then((res) => {
-        console.log(res.message);
+        toast.success(res.message);
         return navigate("/");
       })
-      .catch((err: IAPIError) => console.error(err.response.data.message))
+      .catch((err: IAPIError) => toast.error(err.response.data.message))
       .finally(() => setLoading(false));
   };
 

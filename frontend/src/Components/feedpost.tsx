@@ -6,6 +6,7 @@ import { api } from "../api/api";
 import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const FeedPost = ({
   data,
@@ -43,7 +44,7 @@ const FeedPost = ({
           : data.likes.length - 1;
         setLiked(!liked);
       })
-      .catch((err: IAPIError) => console.error(err.response.data.message))
+      .catch((err: IAPIError) => toast.error(err.response.data.message))
       .finally(() => setLoading(false));
   };
 
@@ -67,10 +68,11 @@ const FeedPost = ({
       .delete(`/post/${data.id}`, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((res: AxiosResponse<{ message: string }>) =>
-        alert(res.data.message)
-      )
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .then((res: AxiosResponse<{ message: string }>) => {
+        func();
+        toast.success(res.data.message);
+      })
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
   };
 
   const Menu = ({ className }: { className?: string }) => {

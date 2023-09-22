@@ -3,6 +3,7 @@ import Redirectuser from "../utils/redirecthome";
 import { api, connectApi, postThePosts, refreshAcc } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
+import toast from "react-hot-toast";
 
 const CreateFeed = () => {
   Redirectuser();
@@ -18,12 +19,12 @@ const CreateFeed = () => {
   useEffect(() => {
     refreshAcc<IAPISuccess>()
       .then((res) => setToken(res.token))
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
 
     if (!id) return;
     connectApi<DataPost>(`/post/${id}`)
       .then((res) => setData(res))
-      .catch((err: IAPIError) => console.error(err));
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -47,18 +48,18 @@ const CreateFeed = () => {
           headers: { Authorization: "Bearer " + token },
         })
         .then((res: AxiosResponse<{ message: string }>) => {
-          alert(res.data.message);
+          toast.success(res.data.message);
           navigate("/feed");
         })
-        .catch((err: IAPIError) => console.error(err.response.data.message));
+        .catch((err: IAPIError) => toast.error(err.response.data.message));
       return false;
     }
     postThePosts<IAPISuccess>(data, token)
       .then((res) => {
-        alert(res.message);
+        toast.success(res.message);
         navigate("/feed");
       })
-      .catch((err: IAPIError) => alert(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
   };
 
   return (

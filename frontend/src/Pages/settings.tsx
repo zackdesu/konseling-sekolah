@@ -3,6 +3,7 @@ import { BsPersonFill } from "react-icons/bs";
 import { connectApi } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import Redirectuser from "../utils/redirecthome";
+import toast from "react-hot-toast";
 
 const Settings = () => {
   Redirectuser();
@@ -26,12 +27,12 @@ const Settings = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    connectApi("/login", "delete")
+    connectApi<IAPISuccess>("/login", "delete")
       .then((res) => {
-        console.log(res);
+        toast.success(res.message);
         navigate("/home");
       })
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
   };
 
   return (

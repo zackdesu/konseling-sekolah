@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { connectApi, infoAcc, refreshAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 import FeedPost from "../Components/feedpost";
+import toast from "react-hot-toast";
 
 const Profile = () => {
   Redirectuser();
@@ -15,7 +16,7 @@ const Profile = () => {
     refreshAcc<IAPISuccess>()
       .then((res) => res.token && setToken(res.token))
       .catch((err: IAPIError) => {
-        console.error(err.response.data.message);
+        toast.error(err.response.data.message);
       });
   }, []);
 
@@ -24,7 +25,7 @@ const Profile = () => {
 
     infoAcc<IProfile>(token)
       .then((res) => setUser(res))
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
 
     setLoading(false);
   }, [token]);
@@ -33,7 +34,7 @@ const Profile = () => {
     void (() => {
       connectApi<DataPost[]>("/user/post")
         .then((res) => setDataPost(res))
-        .catch((err: IAPIError) => console.log(err.response.data.message));
+        .catch((err: IAPIError) => toast.error(err.response.data.message));
     })();
 
   useEffect(() => {

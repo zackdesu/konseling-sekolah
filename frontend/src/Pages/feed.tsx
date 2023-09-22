@@ -3,6 +3,7 @@ import FeedPost from "../Components/feedpost";
 import { useCallback, useEffect, useState } from "react";
 import { connectApi, infoAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
+import toast from "react-hot-toast";
 
 const Feed = () => {
   const [dataPost, setDataPost] = useState<DataPost[]>([]);
@@ -17,7 +18,7 @@ const Feed = () => {
 
     infoAcc<IProfile>(token)
       .then((res) => setUser(res))
-      .catch((err: IAPIError) => console.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message));
 
     setLoading(false);
   }, [token]);
@@ -30,7 +31,7 @@ const Feed = () => {
             if (res.length === 0) return setIsExist(false);
             setDataPost((prev) => [...prev, ...res]);
           })
-          .catch((err: IAPIError) => console.log(err.response.data.message))
+          .catch((err: IAPIError) => toast.error(err.response.data.message))
           .finally(() => setLoading(false));
       })();
   }, [isExist, page]);

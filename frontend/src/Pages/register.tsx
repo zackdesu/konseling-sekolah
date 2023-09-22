@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { connectApi } from "../api/api";
 import { useNavigate } from "react-router-dom";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
+import toast from "react-hot-toast";
 
 const Register = () => {
   const refUsername = useRef<HTMLInputElement>(null);
@@ -43,10 +44,10 @@ const Register = () => {
     setLoading(true);
     connectApi<IAPISuccess>("/register", "POST", data)
       .then((res) => {
-        console.log(res.message);
+        toast.success(res.message);
         navigate("/login", { preventScrollReset: true });
       })
-      .catch((err: IAPIError) => console.log(err.response.data.message))
+      .catch((err: IAPIError) => toast.error(err.response.data.message))
       .finally(() => setLoading(false));
   };
 
