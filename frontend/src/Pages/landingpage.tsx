@@ -54,7 +54,7 @@ const LandingPage = () => {
   useEffect(() => {
     const mathRandom = Math.round(Math.random() * QuotesData.length);
     setQuote(QuotesData[mathRandom]);
-  }, []);
+  }, [Quote, setQuote]);
 
   return (
     <>
@@ -71,10 +71,11 @@ const LandingPage = () => {
         <a href="#menu">
           <button className="normalbutton mt-5">Mulai Konseling</button>
         </a>
-        <p className="text-center italic text-zinc-400 mt-5 w-[90%]">
-          &quot;{Quote ? Quote.quote : null}&quot; <br /> -{" "}
-          {Quote ? Quote.creator : null}
-        </p>
+        {Quote && (
+          <p className="text-center italic text-zinc-400 mt-5 w-[90%]">
+            &quot;{Quote.quote}&quot; <br /> - {Quote.creator}
+          </p>
+        )}
       </div>
       <MenuParent
         title="Are you okay?"
