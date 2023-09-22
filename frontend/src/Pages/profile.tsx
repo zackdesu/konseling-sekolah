@@ -56,10 +56,10 @@ const Profile = () => {
           className="max-w-[240px] max-sm:w-2/6 max-lg:w-full lg:w-9/12 max-lg:row-span-2 place-self-center rounded-full"
         />
         <h2 className="max-sm:text-center max-sm:mt-5 lg:mt-3 lg:mb-1 max-lg:col-span-3 max-sm:self-center max-lg:self-end sm:ml-5">
-          {user && user.realname}
+          {user.realname}
         </h2>
         <p className="text-zinc-400 mt-2 max-lg:col-span-2 max-sm:self-center lg:mb-1 sm:ml-6">
-          {user && user.gender} · {user && (user.mbti ? user.mbti : "Set MBTI")}
+          {user.gender} · {user.mbti ? user.mbti : "Set MBTI"}
         </p>
         <p className="max-lg:hidden sm:ml-6">Belum ada bio.</p>
         <button className="invertedbutton w-3/4 max-lg:col-start-5 max-lg:col-span-2 max-lg:row-span-2 place-self-center">
