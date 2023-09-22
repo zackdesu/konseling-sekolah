@@ -60,7 +60,9 @@ interface ICookie {
 
 interface IEditable {
   realname: string;
-  mbti: string;
+  username: string;
+  email: string;
+  mbti: string | null;
   tempatLahir: string;
   tanggalLahir: string;
 }
