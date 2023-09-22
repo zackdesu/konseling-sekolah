@@ -12,11 +12,14 @@ import {
 import { body } from "express-validator";
 import { isLoggedIn, midWareRegister } from "../middleware/account";
 import { isRealNameValid, isUsernameValid } from "../middleware/validator";
+import { loginLimit, registerLimit } from "../middleware/rateLimit";
 const router: Router = Router();
 
 router.post(
   "/register",
   body("email").isEmail(),
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  registerLimit,
   isUsernameValid,
   isRealNameValid,
   midWareRegister,
@@ -24,7 +27,8 @@ router.post(
 );
 router
   .route("/login")
-  .post(postLogin)
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  .post(loginLimit, postLogin)
   .put(isLoggedIn, refreshUserToken)
   .delete(isLoggedIn, logout);
 
