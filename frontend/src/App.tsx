@@ -15,6 +15,8 @@ import Quiz from "./Pages/quiz";
 import CreateFeed from "./Pages/createfeed";
 import Quotes from "./Pages/quotes";
 import { Toaster } from "react-hot-toast";
+import EditAcc from "./Pages/editacc";
+import Options from "./Pages/options";
 
 function App() {
   return (
@@ -81,6 +83,24 @@ function App() {
             </>
           }
           path="/settings"
+        />
+        <Route
+          element={
+            <>
+              <Options />
+              <Menu />
+            </>
+          }
+          path="/settings/options"
+        />
+        <Route
+          element={
+            <>
+              <EditAcc />
+              <Menu />
+            </>
+          }
+          path="/settings/acc"
         />
         <Route
           element={
