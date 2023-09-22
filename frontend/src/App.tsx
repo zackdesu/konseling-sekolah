@@ -14,15 +14,17 @@ import Talks from "./Pages/talks";
 import Quiz from "./Pages/quiz";
 import CreateFeed from "./Pages/createfeed";
 import Quotes from "./Pages/quotes";
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
     <Router>
+      <Navbar />
+      <Toaster />
       <Routes>
         <Route
           element={
             <>
-              <Navbar />
               <LandingPage />
               <Menu />
             </>
@@ -32,7 +34,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Home />
             </>
           }
@@ -41,7 +42,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Login />
             </>
           }
@@ -50,7 +50,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Register />
             </>
           }
@@ -59,7 +58,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Profile />
               <Menu />
             </>
@@ -69,7 +67,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Tentang />
               <Menu />
             </>
@@ -79,7 +76,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Settings />
               <Menu />
             </>
@@ -89,7 +85,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Feed />
               <Menu />
             </>
@@ -99,7 +94,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Quiz />
               <Menu />
             </>
@@ -109,7 +103,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <CreateFeed />
               <Menu />
             </>
@@ -119,7 +112,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <CreateFeed />
               <Menu />
             </>
@@ -129,7 +121,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Talks />
               <Menu />
             </>
@@ -139,7 +130,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <Quotes />
               <Menu />
             </>
@@ -149,7 +139,6 @@ function App() {
         <Route
           element={
             <>
-              <Navbar />
               <NotFound />
               <Menu />
             </>
