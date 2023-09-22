@@ -11,7 +11,11 @@ import {
 } from "../controller/account";
 import { body } from "express-validator";
 import { isLoggedIn, midWareRegister } from "../middleware/account";
-import { isRealNameValid, isUsernameValid } from "../middleware/validator";
+import {
+  isMBTIValid,
+  isRealNameValid,
+  isUsernameValid,
+} from "../middleware/validator";
 import { loginLimit, registerLimit } from "../middleware/rateLimit";
 const router: Router = Router();
 
@@ -35,7 +39,7 @@ router
 router
   .route("/account")
   .get(isLoggedIn, getAccount)
-  .put(isLoggedIn, isUsernameValid, isRealNameValid, editAccount)
+  .put(isLoggedIn, isUsernameValid, isRealNameValid, isMBTIValid, editAccount)
   .delete(isLoggedIn, deleteAccount);
 
 router.put("/password", isLoggedIn, changePassword);

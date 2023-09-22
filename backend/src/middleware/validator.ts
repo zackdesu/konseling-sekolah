@@ -32,3 +32,48 @@ export const isRealNameValid = (
     });
   next();
 };
+
+interface Mbti {
+  mbti: string;
+}
+
+export const isMBTIValid = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { mbti } = req.body as Mbti;
+
+  if (!mbti) return next();
+
+  const MBTI = [
+    "INTJ",
+    "INTP",
+    "ENTJ",
+    "ENTP",
+    "INFJ",
+    "INFP",
+    "ENFJ",
+    "ENFP",
+    "ISTJ",
+    "ISFJ",
+    "ESTJ",
+    "ESFJ",
+    "ISTP",
+    "ISFP",
+    "ESTP",
+    "ESFP",
+  ];
+
+  if (mbti.length >= 1 && mbti.length !== 4)
+    return res.status(403).json({
+      message: "Karakter MBTI tidak lebih dan tidak kurang dari 4 karakter!",
+    });
+
+  if (!MBTI.includes(mbti.toUpperCase()))
+    return res.status(403).json({
+      message: `${mbti.toUpperCase()} tidak ditemukan!`,
+    });
+
+  return next();
+};
