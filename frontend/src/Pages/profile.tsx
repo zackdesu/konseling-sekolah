@@ -3,6 +3,7 @@ import { connectApi, infoAcc, refreshAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 import FeedPost from "../Components/feedpost";
 import toast from "react-hot-toast";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 const Profile = () => {
   Redirectuser();
@@ -47,7 +48,7 @@ const Profile = () => {
       )
     : [];
 
-  return (
+  return user ? (
     <div className="sm:grid lg:grid-cols-3 mx-10 pt-20 pb-10 gap-4">
       <div className="max-sm:flex max-sm:flex-col max-lg:grid grid-cols-6 grid-rows-2 grid-flow-col lg:flex lg:flex-col mx-5 mt-5">
         <img
@@ -84,10 +85,14 @@ const Profile = () => {
             </div>
           )
         ) : (
-          "Loading..."
+          <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" />
         )}
       </div>
     </div>
+  ) : (
+    <>
+      <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" size={50} />
+    </>
   );
 };
 

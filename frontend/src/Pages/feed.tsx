@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { connectApi, infoAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 import toast from "react-hot-toast";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 const Feed = () => {
   const [dataPost, setDataPost] = useState<DataPost[]>([]);
@@ -74,21 +75,25 @@ const Feed = () => {
           + Buat Feed
         </Link>
 
-        {!loading
-          ? dataPost
-            ? dataPost
-                .filter((e) => !e.private)
-                .map((e, i) => (
-                  <FeedPost
-                    data={e}
-                    key={i}
-                    user={user}
-                    token={token}
-                    func={fetchData}
-                  />
-                ))
-            : "Postingan tidak ditemukan..."
-          : "Loading..."}
+        {!loading ? (
+          dataPost ? (
+            dataPost
+              .filter((e) => !e.private)
+              .map((e, i) => (
+                <FeedPost
+                  data={e}
+                  key={i}
+                  user={user}
+                  token={token}
+                  func={fetchData}
+                />
+              ))
+          ) : (
+            "Postingan tidak ditemukan..."
+          )
+        ) : (
+          <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" size={50} />
+        )}
       </div>
     </>
   );
