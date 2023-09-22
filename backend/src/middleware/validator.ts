@@ -7,12 +7,12 @@ export const isUsernameValid = (
 ) => {
   const { username } = req.body as { username: string };
 
-  const validUsernamePattern = /^[a-zA-Z0-9_.]+$/;
+  const validUsernamePattern = /^[a-z0-9_.]+$/;
 
   if (!validUsernamePattern.test(username))
     return res.status(403).json({
       message:
-        "Username hanya boleh mengandung huruf, angka dan simbol '_' atau '.'",
+        "Username hanya boleh mengandung huruf kecil, angka dan simbol '_' atau '.'",
     });
   next();
 };
