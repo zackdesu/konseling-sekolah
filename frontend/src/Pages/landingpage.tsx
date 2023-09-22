@@ -9,7 +9,7 @@ const LandingPage = () => {
   Redirectuser();
 
   const Card = ({
-    href = "/talks",
+    href = "/",
     img = "sharing",
     title,
     desc,
@@ -87,6 +87,7 @@ const LandingPage = () => {
           title="Sharing"
           desc="Curhat masalahmu disini"
           button="Curhat disini"
+          href="/talks"
         />
         <Card
           img="tests"
