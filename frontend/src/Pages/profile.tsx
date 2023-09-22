@@ -1,25 +1,16 @@
 import { useState, useEffect } from "react";
-import { connectApi, infoAcc, refreshAcc } from "../api/api";
+import { connectApi, infoAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 import FeedPost from "../Components/feedpost";
 import toast from "react-hot-toast";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 const Profile = () => {
-  Redirectuser();
+  const token = Redirectuser();
 
   const [dataPost, setDataPost] = useState<DataPost[]>();
-  const [token, setToken] = useState<string>("");
   const [user, setUser] = useState<IProfile>();
   const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    refreshAcc<IAPISuccess>()
-      .then((res) => res.token && setToken(res.token))
-      .catch((err: IAPIError) => {
-        toast.error(err.response.data.message);
-      });
-  }, []);
 
   useEffect(() => {
     if (!token) return;
@@ -44,7 +35,7 @@ const Profile = () => {
 
   const filteredPost = dataPost
     ? dataPost.filter(
-        (post) => post.Account.username === (user && user.username)
+        (post) => post.Account?.username === (user && user.username)
       )
     : [];
 
@@ -58,7 +49,10 @@ const Profile = () => {
         <h2 className="max-sm:text-center max-sm:mt-5 lg:mt-3 lg:mb-1 max-lg:col-span-3 max-sm:self-center max-lg:self-end sm:ml-5">
           {user.realname}
         </h2>
-        <p className="text-zinc-400 mt-2 max-lg:col-span-2 max-sm:self-center lg:mb-1 sm:ml-6">
+        <p className="text-zinc-400 mt-2 max-lg:col-span-2 max-sm:self-center lg:mb-1 sm:ml-6 font-semibold">
+          @{user.username}
+        </p>
+        <p className="text-zinc-400 mt-2 max-lg:hidden mb-1 ml-6">
           {user.gender} · {user.mbti ? user.mbti : "Set MBTI"}
         </p>
         <p className="max-lg:hidden sm:ml-6">Belum ada bio.</p>
