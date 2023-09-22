@@ -30,10 +30,8 @@ export const createPost = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res.status(404).json({ message: "User tidak ditemukan." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             const createdPost = await prisma.dataPost.create({
               data: {
@@ -53,7 +51,6 @@ export const createPost = (req: Request, res: Response) => {
 
             return res.json({ message: "Berhasil membuat postingan." });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -61,7 +58,6 @@ export const createPost = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -106,7 +102,6 @@ export const getPosts = (req: Request, res: Response) => {
 
       return res.json(posts);
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -140,7 +135,6 @@ export const getOnePost = (req: Request, res: Response) => {
 
       return res.json(post);
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -186,7 +180,6 @@ export const getUserOnlyPost = (req: Request, res: Response) => {
 
             return res.json(posts);
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -194,7 +187,6 @@ export const getUserOnlyPost = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -227,10 +219,8 @@ export const editPost = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res.status(404).json({ message: "User tidak ditemukan." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             const findPost = await prisma.dataPost.findFirst({
               where: {
@@ -264,7 +254,6 @@ export const editPost = (req: Request, res: Response) => {
 
             return res.json({ message: "Berhasil memperbarui postingan." });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -272,7 +261,6 @@ export const editPost = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -295,10 +283,8 @@ export const deletePost = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res.status(404).json({ message: "User tidak ditemukan." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             const findPost = await prisma.dataPost.findFirst({
               where: {
@@ -348,7 +334,6 @@ export const deletePost = (req: Request, res: Response) => {
 
             return res.json({ message: "Berhasil menghapus postingan." });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -356,7 +341,6 @@ export const deletePost = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -382,7 +366,6 @@ export const likePost = (req: Request, res: Response) => {
 
             await featLike(res, (user as { id: string }).id, id);
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -390,7 +373,6 @@ export const likePost = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
