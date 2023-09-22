@@ -42,7 +42,7 @@ const Login = () => {
     >
       <h1 className="my-8 text-zinc-800">Masuk ke Akun</h1>
       <label htmlFor="username" className="labelinput">
-        Nama Lengkap
+        Username / E-mail
       </label>
       <input
         type="text"
