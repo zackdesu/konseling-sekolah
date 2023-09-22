@@ -25,8 +25,8 @@ export const register = (req: Request, res: Response) => {
       const createAccount = await prisma.account.create({
         data: {
           realname,
-          username,
-          email,
+          username: username.toLowerCase(),
+          email: email.toLowerCase(),
           tempatLahir,
           tanggalLahir,
           gender,
@@ -39,7 +39,6 @@ export const register = (req: Request, res: Response) => {
 
       return res.status(200).json({ message: "Berhasil membuat akun!" });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -97,7 +96,6 @@ export const postLogin = (req: Request, res: Response) => {
         .status(200)
         .json({ token, message: `Selamat datang, ${user.realname}!` });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -122,12 +120,10 @@ export const getAccount = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res
                 .status(404)
                 .json({ message: "Sesi kadaluwarsa, silahkan login kembali." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             const data = await prisma.account.findFirst({
               where: {
@@ -156,7 +152,6 @@ export const getAccount = (req: Request, res: Response) => {
 
             return res.status(200).json(sendData);
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -164,7 +159,6 @@ export const getAccount = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -200,7 +194,6 @@ export const refreshUserToken = (req: Request, res: Response) => {
 
       return res.json({ token, message: "Token berhasil di refresh!" });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -219,12 +212,10 @@ export const logout = (req: Request, res: Response) => {
       jwt.verify(refreshtoken, refreshTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res
                 .status(404)
                 .json({ message: "Sesi kadaluwarsa, silahkan login kembali." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             const dataUser = await prisma.account.update({
               where: {
@@ -242,7 +233,6 @@ export const logout = (req: Request, res: Response) => {
 
             return res.json({ token: null, message: "Berhasil logout!" });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -250,7 +240,6 @@ export const logout = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -279,12 +268,10 @@ export const changePassword = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res
                 .status(404)
                 .json({ message: "Sesi kadaluwarsa, silahkan login kembali." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             const findUser = await prisma.account.findFirst({
               where: {
@@ -343,7 +330,6 @@ export const changePassword = (req: Request, res: Response) => {
               message: "Password berhasil diubah!",
             });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -351,7 +337,6 @@ export const changePassword = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -362,16 +347,15 @@ export const changePassword = (req: Request, res: Response) => {
 export const editAccount = (req: Request, res: Response) => {
   void (async () => {
     try {
-      const { realname, mbti, tempatLahir, tanggalLahir } =
-        req.body as IEditable;
+      const { realname, username, mbti } = req.body as IEditable;
 
       const token = req.headers.authorization
         ? req.headers.authorization.split(" ")[1]
         : null;
 
-      if (!realname || !tempatLahir || !tanggalLahir)
+      if (!realname || !username)
         throw res.status(404).json({
-          message: "Nama lengkap dan tempat/tanggal lahir tidak boleh kosong.",
+          message: "Nama lengkap dan username tidak boleh kosong.",
         });
 
       if (!accessTokenEnv || !refreshTokenEnv || !token)
@@ -380,9 +364,7 @@ export const editAccount = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
-            if (!user)
+            if (!user || err)
               throw res.status(404).json({
                 message: "Sesi kadaluwarsa, silahkan login kembali.",
               });
@@ -393,9 +375,8 @@ export const editAccount = (req: Request, res: Response) => {
               },
               data: {
                 realname,
-                tempatLahir,
-                tanggalLahir,
-                mbti: mbti ? mbti.toUpperCase() : null,
+                username: username.toLowerCase(),
+                mbti: mbti && mbti.toUpperCase(),
               },
             });
 
@@ -410,7 +391,6 @@ export const editAccount = (req: Request, res: Response) => {
               message: "Berhasil memperbarui data user.",
             });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -418,7 +398,6 @@ export const editAccount = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
@@ -441,12 +420,10 @@ export const deleteAccount = (req: Request, res: Response) => {
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
           try {
-            if (!user)
+            if (!user || err)
               throw res
                 .status(404)
                 .json({ message: "Sesi kadaluwarsa, silahkan login kembali." });
-            if (err)
-              throw res.status(500).json({ message: "Internal server error." });
 
             if (!password)
               throw res.status(403).json({
@@ -486,7 +463,6 @@ export const deleteAccount = (req: Request, res: Response) => {
                 "Berhasil menghapus akun, terimakasih sudah menggunakan layanan kami.",
             });
           } catch (error) {
-            console.error(error);
             return error;
           } finally {
             await prisma.$disconnect();
@@ -494,7 +470,6 @@ export const deleteAccount = (req: Request, res: Response) => {
         })();
       });
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
