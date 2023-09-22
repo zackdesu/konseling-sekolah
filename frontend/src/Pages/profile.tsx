@@ -31,7 +31,7 @@ const Profile = () => {
 
   const fetchData = () =>
     void (() => {
-      connectApi<DataPost[]>("/post")
+      connectApi<DataPost[]>("/user/post")
         .then((res) => setDataPost(res))
         .catch((err: IAPIError) => console.log(err.response.data.message));
     })();
@@ -47,7 +47,7 @@ const Profile = () => {
     : [];
 
   return (
-    <div className="sm:grid lg:grid-cols-3 mx-10 py-20 gap-4">
+    <div className="sm:grid lg:grid-cols-3 mx-10 pt-20 pb-10 gap-4">
       <div className="max-sm:flex max-sm:flex-col max-lg:grid grid-cols-6 grid-rows-2 grid-flow-col lg:flex lg:flex-col mx-5 mt-5">
         <img
           src="/unknown.jpg"
@@ -65,7 +65,7 @@ const Profile = () => {
         </button>
       </div>
 
-      <div className="w-full sm:w-[90%] mx-auto col-span-2 overflow-y-auto">
+      <div className="w-full sm:w-[90%] mx-auto col-span-2 overflow-y-auto h-[80vh]">
         {!loading ? (
           filteredPost.length > 0 ? (
             filteredPost.map((e, i) => (
