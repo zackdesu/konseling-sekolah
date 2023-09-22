@@ -1,14 +1,15 @@
 import { Link } from "react-router-dom";
 import FeedPost from "../Components/feedpost";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { connectApi, infoAcc } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 
 const Feed = () => {
-  const [dataPost, setDataPost] = useState<DataPost[]>();
+  const [dataPost, setDataPost] = useState<DataPost[]>([]);
+  const [isExist, setIsExist] = useState(true);
   const [user, setUser] = useState<IProfile>();
   const [loading, setLoading] = useState(true);
-
+  const [page, setPage] = useState(1);
   const token = Redirectuser();
 
   useEffect(() => {
@@ -21,27 +22,49 @@ const Feed = () => {
     setLoading(false);
   }, [token]);
 
-  const fetchData = () =>
-    void (() => {
-      connectApi<DataPost[]>("/post")
-        .then((res) => {
-          setDataPost(res);
-        })
-        .catch((err: IAPIError) => console.log(err.response.data.message))
-        .finally(() => setLoading(false));
-    })();
+  const fetchData = useCallback(() => {
+    isExist &&
+      void (() => {
+        connectApi<DataPost[]>("/post", "GET", "", { params: { page } })
+          .then((res) => {
+            if (res.length === 0) return setIsExist(false);
+            setDataPost((prev) => [...prev, ...res]);
+          })
+          .catch((err: IAPIError) => console.log(err.response.data.message))
+          .finally(() => setLoading(false));
+      })();
+  }, [isExist, page]);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop + 1 >=
+      document.documentElement.scrollHeight
+    ) {
+      setPage((prev) => {
+        return prev + 1;
+      });
+    }
+  };
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      fetchData();
-    }, 5000);
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    // const intervalId = setInterval(() => {
+    //   fetchData();
+    // }, 5000);
 
     fetchData();
 
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
+    // return () => {
+    //   clearInterval(intervalId);
+    // };
+  }, [fetchData]);
 
   return (
     <>
@@ -54,7 +77,6 @@ const Feed = () => {
           ? dataPost
             ? dataPost
                 .filter((e) => !e.private)
-                .reverse()
                 .map((e, i) => (
                   <FeedPost
                     data={e}

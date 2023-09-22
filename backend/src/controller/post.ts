@@ -72,7 +72,17 @@ export const createPost = (req: Request, res: Response) => {
 export const getPosts = (req: Request, res: Response) => {
   void (async () => {
     try {
+      const strPage = req.query.page as string;
+      const page = parseInt(strPage);
+
+      const take = 6;
+      const skip = (page - 1) * take;
       const posts = await prisma.dataPost.findMany({
+        orderBy: {
+          createdTime: "desc",
+        },
+        take,
+        skip,
         where: {
           private: false,
         },
@@ -129,6 +139,60 @@ export const getOnePost = (req: Request, res: Response) => {
         throw res.status(404).json({ message: "Postingan tidak ditemukan" });
 
       return res.json(post);
+    } catch (error) {
+      console.error(error);
+      return error;
+    } finally {
+      await prisma.$disconnect();
+    }
+  })();
+};
+
+export const getUserOnlyPost = (req: Request, res: Response) => {
+  void (async () => {
+    try {
+      const { refreshtoken } = req.cookies as ICookie;
+
+      if (!refreshtoken || !refreshTokenEnv)
+        throw res.status(404).json({ message: "Token invalid / undefined" });
+
+      jwt.verify(refreshtoken, refreshTokenEnv, (err, user) => {
+        void (async () => {
+          try {
+            if (!user || err)
+              throw res.status(404).json({ message: "Account not found." });
+
+            const posts = await prisma.dataPost.findMany({
+              where: {
+                accountId: (user as { id: string }).id,
+              },
+              include: {
+                Account: {
+                  select: {
+                    username: true,
+                    realname: true,
+                    mbti: true,
+                    img: true,
+                  },
+                },
+                likes: true,
+              },
+            });
+
+            if (!posts)
+              throw res
+                .status(404)
+                .json({ message: "Postingan tidak ditemukan!" });
+
+            return res.json(posts);
+          } catch (error) {
+            console.error(error);
+            return error;
+          } finally {
+            await prisma.$disconnect();
+          }
+        })();
+      });
     } catch (error) {
       console.error(error);
       return error;

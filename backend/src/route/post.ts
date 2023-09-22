@@ -5,6 +5,7 @@ import {
   editPost,
   getOnePost,
   getPosts,
+  getUserOnlyPost,
   likePost,
 } from "../controller/post";
 import { isLoggedIn } from "../middleware/account";
@@ -18,5 +19,7 @@ router
   .post(isLoggedIn, likePost)
   .put(isLoggedIn, editPost)
   .delete(isLoggedIn, deletePost);
+
+router.get("/user/post", getUserOnlyPost);
 
 export { router };

@@ -1,6 +1,6 @@
 import { CiMenuKebab, CiWarning } from "react-icons/ci";
 import { AiFillLike } from "react-icons/ai";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BiPen, BiTrash } from "react-icons/bi";
 import { api } from "../api/api";
 import { AxiosResponse } from "axios";
@@ -19,12 +19,15 @@ const FeedPost = ({
   func: (...args: never[]) => void;
 }) => {
   const [loading, setLoading] = useState(false);
+  const [liked, setLiked] = useState(false);
 
-  const findLike = data.likes.find(
-    (data) => data.userId === (user ? user.id : null)
-  )
-    ? true
-    : false;
+  useEffect(() => {
+    setLiked(
+      data.likes.find((data) => data.userId === (user && user.id))
+        ? true
+        : false
+    );
+  }, [data.likes, user]);
 
   const navigate = useNavigate();
 
@@ -33,7 +36,13 @@ const FeedPost = ({
     setLoading(true);
     api
       .post(`/post/${data.id}`)
-      .then(() => func())
+      .then(() => {
+        func();
+        data.likes.length = !liked
+          ? data.likes.length + 1
+          : data.likes.length - 1;
+        setLiked(!liked);
+      })
       .catch((err: IAPIError) => console.error(err.response.data.message))
       .finally(() => setLoading(false));
   };
@@ -149,7 +158,7 @@ const FeedPost = ({
           <div className="flex items-center">
             <button disabled={loading} onClick={handleLikeClick}>
               <AiFillLike
-                className={`cursor-pointer ${findLike ? "text-blue-500" : ""}`}
+                className={`cursor-pointer ${liked ? "text-blue-500" : ""}`}
               />
             </button>
             <p className="ml-4 text-sm">
