@@ -81,7 +81,7 @@ const FeedPost = ({
         <button className="flex items-center text-red-600 my-1">
           <CiWarning className="mr-2" /> Report
         </button>
-        {data.Account.username == (user && user.username) ||
+        {(data.Account && data.Account.username) == (user && user.username) ||
         (user && user.isAdmin) ? (
           <>
             <Link
@@ -145,12 +145,22 @@ const FeedPost = ({
       <div className="bg-zinc-100 rounded-lg w-[90%] max-sm:mx-auto m-2 p-2 flex flex-col justify-between relative border">
         <div className="flex items-center">
           <img
-            src={data.Account.img ? data.Account.img : "/unknown.jpg"}
+            src={
+              data.Account
+                ? data.Account.img
+                  ? data.Account.img
+                  : "/unknown.jpg"
+                : "/unknown.jpg"
+            }
             width={30}
             className="rounded-full"
           />
           <h6 className="ml-3">
-            {!data.anonym ? data.Account.username : "Anonym"}
+            {data.Account
+              ? !data.anonym
+                ? data.Account.username
+                : "Anonym"
+              : "Deleted Account"}
           </h6>
           <span className="mx-2">·</span>
           <p className="text-zinc-400">3d</p>
