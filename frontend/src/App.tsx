@@ -1,22 +1,26 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navbar from "./Components/navbar";
-import Home from "./Pages/home";
-import Login from "./Pages/login";
-import Register from "./Pages/register";
-import Profile from "./Pages/profile";
-import LandingPage from "./Pages/landingpage";
-import NotFound from "./Pages/notfound";
-import Tentang from "./Pages/tentang";
 import Menu from "./Components/menu";
-import Settings from "./Pages/settings";
-import Feed from "./Pages/feed";
-import Talks from "./Pages/talks";
-import Quiz from "./Pages/quiz";
-import CreateFeed from "./Pages/createfeed";
-import Quotes from "./Pages/quotes";
 import { Toaster } from "react-hot-toast";
-import EditAcc from "./Pages/editacc";
-import Options from "./Pages/options";
+import {
+  Home,
+  Login,
+  Register,
+  Profile,
+  LandingPage,
+  NotFound,
+  Tentang,
+  Settings,
+  Feed,
+  Talks,
+  Quiz,
+  CreateFeed,
+  Quotes,
+  EditAcc,
+  Options,
+  Counselor,
+  Dashboard,
+} from "./Pages";
 
 function App() {
   return (
@@ -101,6 +105,24 @@ function App() {
             </>
           }
           path="/settings/acc"
+        />
+        <Route
+          element={
+            <>
+              <Dashboard />
+              <Menu />
+            </>
+          }
+          path="/settings/admin"
+        />
+        <Route
+          element={
+            <>
+              <Counselor />
+              <Menu />
+            </>
+          }
+          path="/settings/admin/counselor"
         />
         <Route
           element={

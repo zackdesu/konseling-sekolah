@@ -88,3 +88,12 @@ interface ILikedPost {
   userId: string;
   postId: string;
 }
+
+interface IAdmin {
+  id: string;
+  username: string;
+  realname: string;
+  img: string;
+  isAdmin: boolean;
+  isCounselor: boolean;
+}
