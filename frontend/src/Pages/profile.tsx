@@ -43,7 +43,7 @@ const Profile = () => {
     <div className="sm:grid lg:grid-cols-3 mx-10 pt-20 pb-10 gap-4">
       <div className="max-sm:flex max-sm:flex-col max-lg:grid grid-cols-6 grid-rows-2 grid-flow-col lg:flex lg:flex-col mx-5 mt-5">
         <img
-          src="/unknown.jpg"
+          src={user.img ?? "/unknown.jpg"}
           className="max-w-[240px] max-sm:w-2/6 max-lg:w-full lg:w-9/12 max-lg:row-span-2 place-self-center rounded-full"
         />
         <h2 className="max-sm:text-center max-sm:mt-5 lg:mt-3 lg:mb-1 max-lg:col-span-3 max-sm:self-center max-lg:self-end sm:ml-5">
@@ -61,7 +61,7 @@ const Profile = () => {
         </button>
       </div>
 
-      <div className="w-full sm:w-[90%] mx-auto col-span-2 overflow-y-auto h-[80vh]">
+      <div className="w-full sm:w-[90%] mx-auto col-span-2 lg:overflow-y-auto h-[80vh]">
         {!loading ? (
           filteredPost.length > 0 ? (
             filteredPost.map((e, i) => (
