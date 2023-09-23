@@ -40,6 +40,7 @@ interface IProfile {
   mbti: string | null;
   likedPost?: DataPost[];
   isAdmin: boolean;
+  isCounselor: boolean;
 }
 
 interface DataQuotes {

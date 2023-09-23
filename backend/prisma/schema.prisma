@@ -11,10 +11,10 @@ datasource db {
 }
 
 model Account {
-  id           String       @id @default(cuid())
-  username     String
+  id           String       @id @unique @default(cuid())
+  username     String       @unique
   realname     String
-  email        String
+  email        String       @unique
   tempatLahir  String
   tanggalLahir DateTime
   gender       String
@@ -24,6 +24,7 @@ model Account {
   phonenumber  String?
   token        String?      @db.VarChar(600)
   isAdmin      Boolean      @default(false)
+  isCounselor  Boolean      @default(false)
   createdPost  DataPost[]
   likedPost    LikedPost[]
   likedQuotes  DataQuotes[]

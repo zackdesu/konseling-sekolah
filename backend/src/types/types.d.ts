@@ -24,6 +24,7 @@ interface User {
   gender: string;
   password: string;
   isAdmin: boolean;
+  isCounselor: boolean;
   img: string | null;
   likedPost?: DataPost[];
   likedQuotes?: DataQuotes[];
@@ -42,6 +43,7 @@ interface IProfile {
   mbti: string | null;
   likedPost?: ILikedPost[];
   isAdmin: boolean;
+  isCounselor: boolean;
 }
 
 interface ILikedPost {
