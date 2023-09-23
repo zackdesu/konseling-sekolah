@@ -4,6 +4,7 @@ interface DataPost {
   anonym: boolean;
   post: string;
   likes: ILikedPost[];
+  createdTime: Date;
   Account: {
     img: string | null;
     mbti: string | null;

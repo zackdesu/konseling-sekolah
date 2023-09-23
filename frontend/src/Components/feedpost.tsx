@@ -115,8 +115,19 @@ const FeedPost = ({
       ? "B"
       : "";
 
+  const parseTime = new Date().getTime() - new Date(data.createdTime).getTime();
+
+  const time =
+    parseTime < 1000 * 60
+      ? Math.floor(parseTime / 1000) + " detik yang lalu"
+      : parseTime < 1000 * 60 * 60
+      ? Math.floor(parseTime / (1000 * 60)) + " menit yang lalu"
+      : parseTime > 1000 * 60 * 60 * 24
+      ? Math.floor(parseTime / (1000 * 60 * 60 * 24)) + " hari yang lalu"
+      : Math.floor(parseTime / (1000 * 60 * 60)) + " jam yang lalu";
+
   const DeleteModal = () => (
-    <div className="bg-[rgba(0,0,0,.6)] fixed top-0 right-0 left-0 bottom-0 pt-20 z-10 flex items-center justify-center">
+    <div className="bg-[rgba(0,0,0,.6)] fixed top-0 right-0 left-0 bottom-0 pt-20 z-10 flex items-center justify-items-center">
       <div className="w-[500px] bg-zinc-100 flex flex-col items-center p-5 rounded-xl">
         <h5>Apakah kamu yakin ingin menghapus postingan ini?</h5>
         <div>
@@ -142,7 +153,7 @@ const FeedPost = ({
 
   return (
     <>
-      <div className="bg-zinc-100 rounded-lg w-[90%] max-sm:mx-auto m-2 p-2 flex flex-col justify-between relative border">
+      <div className="bg-zinc-100 rounded-lg w-[90%] max-sm:mx-auto m-2 p-2 flex flex-col justify-between relative border mx-auto">
         <div className="flex items-center">
           <img
             src={
@@ -163,7 +174,7 @@ const FeedPost = ({
               : "Deleted Account"}
           </h6>
           <span className="mx-2">·</span>
-          <p className="text-zinc-400">3d</p>
+          <p className="text-zinc-400">{time}</p>
         </div>
         <p className="text-xs sm:text-base my-4 px-10">{data.post}</p>
         <div className="flex items-center justify-between border-t py-1 mx-2 md:mx-5">
