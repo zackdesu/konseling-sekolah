@@ -57,15 +57,7 @@ const Feed = () => {
   }, []);
 
   useEffect(() => {
-    // const intervalId = setInterval(() => {
-    //   fetchData();
-    // }, 5000);
-
     fetchData();
-
-    // return () => {
-    //   clearInterval(intervalId);
-    // };
   }, [fetchData]);
 
   return (
