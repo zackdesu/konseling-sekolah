@@ -18,6 +18,8 @@ interface User {
   username: string;
   realname: string;
   email: string;
+  role: string | null;
+  description: string | null;
   tempatLahir: string;
   tanggalLahir: Date;
   gender: string;
@@ -96,4 +98,21 @@ interface IAdmin {
   img: string;
   isAdmin: boolean;
   isCounselor: boolean;
+}
+
+interface ICounselor {
+  id: string;
+  username: string;
+  role: string;
+  realname: string;
+  img: string;
+  isCounselor: boolean;
+  gender: string;
+  mbti: string;
+}
+
+interface IMessage {
+  room?: string;
+  from: string;
+  message: string;
 }
