@@ -74,3 +74,9 @@ interface IPost {
   privateVal: boolean;
   anonymVal: boolean;
 }
+
+interface IMessage {
+  room?: string;
+  from: string;
+  message: string;
+}
