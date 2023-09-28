@@ -110,6 +110,7 @@ interface ICounselor {
   mbti: string | null;
   role: string | null;
   description: string | null;
+  phonenumber: string | null;
 }
 
 interface IMessageID {

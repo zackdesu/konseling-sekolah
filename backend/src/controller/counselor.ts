@@ -53,6 +53,7 @@ export const getOneCounselor = (req: Request, res: Response) => {
           mbti: true,
           role: true,
           description: true,
+          phonenumber: true,
         },
       });
 

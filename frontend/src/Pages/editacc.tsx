@@ -1,18 +1,12 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 import Redirectuser from "../utils/redirecthome";
 import toast from "react-hot-toast";
-import { connectApi, infoAcc } from "../api/api";
+import { connectApi } from "../api/api";
+import useAccContext from "../context/useAllContext";
 
 const EditAcc = () => {
-  const [user, setUser] = useState<IProfile>();
+  const { user, setUser } = useAccContext();
   const token = Redirectuser();
-  useEffect(() => {
-    if (!token) return;
-
-    infoAcc<IProfile>(token)
-      .then((res) => setUser(res))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
-  }, [token]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -64,6 +58,20 @@ const EditAcc = () => {
         value={user.username}
         onChange={(e) =>
           setUser((prev) => prev && { ...prev, username: e.target.value })
+        }
+      />
+      <label htmlFor="mbti" className="labelinput">
+        MBTI
+      </label>
+      <input
+        type="mbti"
+        id="mbti"
+        name="mbti"
+        className="userinput"
+        autoComplete="off"
+        value={user.mbti ?? ""}
+        onChange={(e) =>
+          setUser((prev) => prev && { ...prev, mbti: e.target.value })
         }
       />
       <label htmlFor="mbti" className="labelinput">

@@ -351,7 +351,7 @@ export const changePassword = (req: Request, res: Response) => {
 export const editAccount = (req: Request, res: Response) => {
   void (async () => {
     try {
-      const { realname, username, mbti } = req.body as IEditable;
+      const { realname, username, mbti, phonenumber } = req.body as IEditable;
 
       const token = req.headers.authorization
         ? req.headers.authorization.split(" ")[1]
@@ -381,6 +381,7 @@ export const editAccount = (req: Request, res: Response) => {
                 realname,
                 username: username.toLowerCase(),
                 mbti: mbti && mbti.toUpperCase(),
+                phonenumber,
               },
             });
 

@@ -23,8 +23,6 @@ import {
   Counselor,
   Dashboard,
   CounselorInfo,
-  Chat,
-  ListChat,
 } from "./Pages";
 
 function App() {
@@ -209,32 +207,6 @@ function App() {
               </>
             }
             path="/talks/:id/info"
-          />
-          <Route
-            element={
-              <>
-                <Chat />
-              </>
-            }
-            path="/chat/:id/:socketId"
-          />
-          <Route
-            element={
-              <>
-                <Chat />
-              </>
-            }
-            path="/chat/:id"
-          />
-          <Route
-            element={
-              <>
-                <Navbar />
-                <ListChat />
-                <Menu />
-              </>
-            }
-            path="/list/chat"
           />
           <Route
             element={

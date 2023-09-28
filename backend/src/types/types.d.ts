@@ -67,21 +67,11 @@ interface IEditable {
   mbti: string | null;
   tempatLahir: string;
   tanggalLahir: string;
+  phonenumber: string | null;
 }
 
 interface IPost {
   postVal: string;
   privateVal: boolean;
   anonymVal: boolean;
-}
-
-interface IMessageID {
-  consultantId?: string;
-  userId?: string;
-  socketId?: string;
-}
-
-interface IMessage extends IMessageID {
-  from?: string;
-  message?: string;
 }
