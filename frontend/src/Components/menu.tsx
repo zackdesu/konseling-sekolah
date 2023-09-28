@@ -1,5 +1,5 @@
 import { AiFillCompass, AiFillHome } from "react-icons/ai";
-import { BsFillPersonFill } from "react-icons/bs";
+import { BsChatSquareDotsFill, BsFillPersonFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 const Menu = () => {
   return (
@@ -10,6 +10,12 @@ const Menu = () => {
         </Link>
         <Link to={"/feed"}>
           <AiFillCompass size={20} className="max-[450px]:min-w-[20px]" />
+        </Link>
+        <Link to={"/list/chat"}>
+          <BsChatSquareDotsFill
+            size={17}
+            className="max-[450px]:min-w-[20px]"
+          />
         </Link>
         <Link to={"/profil"}>
           <BsFillPersonFill size={20} className="max-[450px]:min-w-[20px]" />
