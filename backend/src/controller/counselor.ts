@@ -35,13 +35,24 @@ export const getAllCounselors = (req: Request, res: Response) => {
 export const getOneCounselor = (req: Request, res: Response) => {
   void (async () => {
     try {
-      const { id } = req.body as { id?: string };
+      const { id } = req.query as { id?: string };
 
       if (!id) throw res.status(404).json({ message: "ID tidak dimasukkan!" });
 
       const oneCounselor = await prisma.account.findFirst({
         where: {
           id,
+        },
+        select: {
+          id: true,
+          username: true,
+          realname: true,
+          img: true,
+          isCounselor: true,
+          gender: true,
+          mbti: true,
+          role: true,
+          description: true,
         },
       });
 
@@ -50,7 +61,6 @@ export const getOneCounselor = (req: Request, res: Response) => {
 
       return res.json(oneCounselor);
     } catch (error) {
-      console.error(error);
       return error;
     } finally {
       await prisma.$disconnect();
