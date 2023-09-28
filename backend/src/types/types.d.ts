@@ -75,8 +75,13 @@ interface IPost {
   anonymVal: boolean;
 }
 
-interface IMessage {
-  room?: string;
-  from: string;
-  message: string;
+interface IMessageID {
+  consultantId?: string;
+  userId?: string;
+  socketId?: string;
+}
+
+interface IMessage extends IMessageID {
+  from?: string;
+  message?: string;
 }
