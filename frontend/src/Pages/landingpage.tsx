@@ -3,11 +3,8 @@ import Footer from "../Components/footer";
 import MenuParent from "../Components/menuparent";
 import { QuotesData } from "../Components/data";
 import { useEffect, useState } from "react";
-import Redirectuser from "../utils/redirecthome";
 
 const LandingPage = () => {
-  Redirectuser();
-
   const Card = ({
     href = "/",
     img = "sharing",

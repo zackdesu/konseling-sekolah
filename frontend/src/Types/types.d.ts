@@ -103,16 +103,22 @@ interface IAdmin {
 interface ICounselor {
   id: string;
   username: string;
-  role: string;
   realname: string;
-  img: string;
+  img: string | null;
   isCounselor: boolean;
   gender: string;
-  mbti: string;
+  mbti: string | null;
+  role: string | null;
+  description: string | null;
 }
 
-interface IMessage {
-  room?: string;
-  from: string;
-  message: string;
+interface IMessageID {
+  consultantId?: string;
+  userId?: string;
+  socketId?: string;
+}
+
+interface IMessage extends IMessageID {
+  from?: string;
+  message?: string;
 }

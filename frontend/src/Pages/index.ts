@@ -17,6 +17,7 @@ import Dashboard from "./dashboard";
 import Counselor from "./counselor";
 import CounselorInfo from "./counselorinfo";
 import Chat from "./chat";
+import ListChat from "./listchat";
 export {
   Home,
   Login,
@@ -37,4 +38,5 @@ export {
   Counselor,
   CounselorInfo,
   Chat,
+  ListChat,
 };
