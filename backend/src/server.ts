@@ -11,19 +11,67 @@ const io = new Server(server, {
   },
 });
 
+let users: IMessageID[] = [];
+
 io.on("connection", (socket) => {
-  console.log("User connected");
+  console.log("connected");
+  const id = socket.id;
 
-  socket.on("join_room", async (r: string) => {
-    await socket.join(r);
+  socket.on("createChat", (user: IMessageID) => {
+    const data: IMessageID = {
+      ...user,
+      socketId: id,
+    };
+
+    const findData = users.find((u) => u.consultantId !== user.consultantId);
+
+    if (findData) return socket.emit("createChatReturn", findData);
+    users.push(data);
+    console.log(data);
+    socket.emit("createChatReturn", data);
   });
 
-  socket.on("chat", (m: IMessage) => {
-    if (!m) return;
-    io.to(m.room!).emit("reply", m);
+  socket.on("joinChat", async (id: string) => {
+    const findData = users.find((u) => u.socketId !== id);
+
+    if (!findData) return console.error("No data found");
+    if (!findData.socketId) return console.error("No socket id found");
+    console.log("Join: " + findData.socketId);
+    await socket.join(findData.socketId);
   });
+
+  socket.on("sendMessage", (msg: IMessage) => {
+    const findUser = users.find(
+      (user) => user.consultantId === msg.consultantId
+    );
+
+    users = users.filter((user) => user.consultantId !== msg.consultantId);
+
+    const newData = {
+      ...findUser,
+      ...msg,
+    };
+
+    users.push(newData);
+
+    if (!findUser) return console.error("User tidak ditemukan");
+
+    if (!findUser.socketId) return console.error("Socket id not found");
+
+    if (!msg.message) return console.error("msg not found");
+
+    console.log(findUser.socketId);
+    io.to(findUser.socketId).emit("reply", msg);
+  });
+
+  socket.on("getMessage", (id: string) => {
+    const findUser = users.filter((user) => user.consultantId === id);
+
+    socket.emit("postMessage", findUser);
+  });
+
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+    console.log("disconnected");
   });
 });
 
