@@ -1,18 +1,12 @@
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent } from "react";
 import Redirectuser from "../utils/redirecthome";
 import toast from "react-hot-toast";
-import { connectApi, infoAcc } from "../api/api";
+import { connectApi } from "../api/api";
+import useAccContext from "../context/useAllContext";
 
 const EditAcc = () => {
-  const [user, setUser] = useState<IProfile>();
+  const { user, setUser } = useAccContext();
   const token = Redirectuser();
-  useEffect(() => {
-    if (!token) return;
-
-    infoAcc<IProfile>(token)
-      .then((res) => setUser(res))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
-  }, [token]);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,7 +17,10 @@ const EditAcc = () => {
       realname: user.realname,
       username: user.username,
       mbti: user.mbti,
+      phonenumber: user.phonenumber,
     };
+
+    console.log(data);
 
     connectApi<IAPISuccess>("/account", "PUT", data, {
       headers: { Authorization: `Bearer ${token}` },
@@ -78,6 +75,20 @@ const EditAcc = () => {
         value={user.mbti ?? ""}
         onChange={(e) =>
           setUser((prev) => prev && { ...prev, mbti: e.target.value })
+        }
+      />
+      <label htmlFor="phonenumber" className="labelinput">
+        Nomor WhatsApp
+      </label>
+      <input
+        type="phonenumber"
+        id="phonenumber"
+        name="phonenumber"
+        className="userinput"
+        autoComplete="off"
+        value={user.phonenumber ?? ""}
+        onChange={(e) =>
+          setUser((prev) => prev && { ...prev, phonenumber: e.target.value })
         }
       />
       <button className="normalbutton">Submit</button>

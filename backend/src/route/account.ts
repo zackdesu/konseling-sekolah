@@ -13,6 +13,7 @@ import { body } from "express-validator";
 import { isLoggedIn, midWareRegister } from "../middleware/account";
 import {
   isMBTIValid,
+  isPhoneNumberValid,
   isRealNameValid,
   isUsernameValid,
 } from "../middleware/validator";
@@ -39,7 +40,14 @@ router
 router
   .route("/account")
   .get(isLoggedIn, getAccount)
-  .put(isLoggedIn, isUsernameValid, isRealNameValid, isMBTIValid, editAccount)
+  .put(
+    isLoggedIn,
+    isUsernameValid,
+    isRealNameValid,
+    isMBTIValid,
+    isPhoneNumberValid,
+    editAccount
+  )
   .delete(isLoggedIn, deleteAccount);
 
 router.put("/password", isLoggedIn, changePassword);

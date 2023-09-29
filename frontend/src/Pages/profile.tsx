@@ -1,31 +1,35 @@
 import { useState, useEffect } from "react";
-import { connectApi, infoAcc } from "../api/api";
+import { connectApi } from "../api/api";
 import Redirectuser from "../utils/redirecthome";
 import FeedPost from "../Components/feedpost";
 import toast from "react-hot-toast";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
+import useAccContext from "../context/useAllContext";
 
 const Profile = () => {
   const token = Redirectuser();
 
   const [dataPost, setDataPost] = useState<DataPost[]>();
-  const [user, setUser] = useState<IProfile>();
+  // const [user, setUser] = useState<IProfile>();
   const [loading, setLoading] = useState(true);
+  const { user } = useAccContext();
+  // useEffect(() => {
+  //   if (!token) return;
 
-  useEffect(() => {
-    if (!token) return;
+  //   infoAcc<IProfile>(token)
+  //     .then((res) => setUser(res))
+  //     .catch((err: IAPIError) => toast.error(err.response.data.message));
 
-    infoAcc<IProfile>(token)
-      .then((res) => setUser(res))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
-
-    setLoading(false);
-  }, [token]);
+  //   setLoading(false);
+  // }, [token]);
 
   const fetchData = () =>
     void (() => {
       connectApi<DataPost[]>("/user/post")
-        .then((res) => setDataPost(res))
+        .then((res) => {
+          setDataPost(res);
+          setLoading(false);
+        })
         .catch((err: IAPIError) => toast.error(err.response.data.message));
     })();
 

@@ -87,6 +87,7 @@ export const postLogin = (req: Request, res: Response) => {
         mbti: user.mbti,
         img: user.img,
         isAdmin: user.isAdmin,
+        isCounselor: user.isCounselor,
       };
 
       await generateRefreshToken(res, data.id);
@@ -148,6 +149,7 @@ export const getAccount = (req: Request, res: Response) => {
               img: data.img,
               likedPost: data.likedPost,
               isAdmin: data.isAdmin,
+              isCounselor: data.isCounselor,
             };
 
             return res.status(200).json(sendData);
@@ -188,6 +190,7 @@ export const refreshUserToken = (req: Request, res: Response) => {
         mbti: findUser.mbti,
         img: findUser.img,
         isAdmin: findUser.isAdmin,
+        isCounselor: findUser.isCounselor,
       };
 
       const token = generateToken(res, data);
@@ -320,6 +323,7 @@ export const changePassword = (req: Request, res: Response) => {
               mbti: changePassword.mbti,
               img: changePassword.img,
               isAdmin: changePassword.isAdmin,
+              isCounselor: changePassword.isCounselor,
             };
 
             await generateRefreshToken(res, sendData.id);
@@ -347,7 +351,9 @@ export const changePassword = (req: Request, res: Response) => {
 export const editAccount = (req: Request, res: Response) => {
   void (async () => {
     try {
-      const { realname, username, mbti } = req.body as IEditable;
+      const { realname, username, mbti, phonenumber } = req.body as IEditable;
+
+      let formattedPhoneNumber = phonenumber;
 
       const token = req.headers.authorization
         ? req.headers.authorization.split(" ")[1]
@@ -360,6 +366,13 @@ export const editAccount = (req: Request, res: Response) => {
 
       if (!accessTokenEnv || !refreshTokenEnv || !token)
         throw res.status(404).json({ message: "Token invalid" });
+
+      if (formattedPhoneNumber) {
+        if (formattedPhoneNumber.startsWith("0"))
+          formattedPhoneNumber = "62" + formattedPhoneNumber.substring(1);
+        if (formattedPhoneNumber.startsWith("+"))
+          formattedPhoneNumber = formattedPhoneNumber.substring(1);
+      }
 
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
@@ -377,6 +390,7 @@ export const editAccount = (req: Request, res: Response) => {
                 realname,
                 username: username.toLowerCase(),
                 mbti: mbti && mbti.toUpperCase(),
+                phonenumber: formattedPhoneNumber,
               },
             });
 

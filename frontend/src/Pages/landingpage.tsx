@@ -3,11 +3,8 @@ import Footer from "../Components/footer";
 import MenuParent from "../Components/menuparent";
 import { QuotesData } from "../Components/data";
 import { useEffect, useState } from "react";
-import Redirectuser from "../utils/redirecthome";
 
 const LandingPage = () => {
-  Redirectuser();
-
   const Card = ({
     href = "/",
     img = "sharing",
@@ -103,7 +100,7 @@ const LandingPage = () => {
           button="Refleksi disini"
         />
       </MenuParent>
-      <MenuParent
+      {/* <MenuParent
         title="How's your day?"
         desc="Mempelajari hal-hal baru dan mengisi energi positif."
       >
@@ -126,7 +123,7 @@ const LandingPage = () => {
           desc="Tips dalam menghadapi hari-harimu"
           button="Lihat tips"
         />
-      </MenuParent>
+      </MenuParent> */}
       <Footer />
     </>
   );

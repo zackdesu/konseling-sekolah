@@ -18,6 +18,8 @@ interface User {
   username: string;
   realname: string;
   email: string;
+  role: string | null;
+  description: string | null;
   tempatLahir: string;
   tanggalLahir: Date;
   gender: string;
@@ -40,6 +42,8 @@ interface IProfile {
   mbti: string | null;
   likedPost?: DataPost[];
   isAdmin: boolean;
+  isCounselor: boolean;
+  phonenumber: string | null;
 }
 
 interface DataQuotes {
@@ -86,4 +90,37 @@ interface IToken {
 interface ILikedPost {
   userId: string;
   postId: string;
+}
+
+interface IAdmin {
+  id: string;
+  username: string;
+  realname: string;
+  img: string;
+  isAdmin: boolean;
+  isCounselor: boolean;
+}
+
+interface ICounselor {
+  id: string;
+  username: string;
+  realname: string;
+  img: string | null;
+  isCounselor: boolean;
+  gender: string;
+  mbti: string | null;
+  role: string | null;
+  description: string | null;
+  phonenumber: string | null;
+}
+
+interface IMessageID {
+  consultantId?: string;
+  userId?: string;
+  socketId?: string;
+}
+
+interface IMessage extends IMessageID {
+  from?: string;
+  message?: string;
 }
