@@ -15,6 +15,8 @@ import EditAcc from "./editacc";
 import Options from "./options";
 import Dashboard from "./dashboard";
 import Counselor from "./counselor";
+// import Chat from "./chat";
+// import ListChat from "./listchat";
 export {
   Home,
   Login,
@@ -33,4 +35,6 @@ export {
   Options,
   Dashboard,
   Counselor,
+  // Chat,
+  // ListChat,
 };

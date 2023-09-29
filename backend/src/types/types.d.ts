@@ -44,6 +44,7 @@ interface IProfile {
   likedPost?: ILikedPost[];
   isAdmin: boolean;
   isCounselor: boolean;
+  phonenumber?: string | null;
 }
 
 interface ILikedPost {
@@ -67,6 +68,7 @@ interface IEditable {
   mbti: string | null;
   tempatLahir: string;
   tanggalLahir: string;
+  phonenumber: string | null;
 }
 
 interface IPost {

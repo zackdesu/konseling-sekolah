@@ -77,3 +77,20 @@ export const isMBTIValid = (
 
   return next();
 };
+
+export const isPhoneNumberValid = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { phonenumber } = req.body as IProfile;
+  const validPhoneNumberPattern = /^(\+62|62|0)8[1-9][0-9]{6,9}$/;
+
+  if (!phonenumber) return next();
+  if (!validPhoneNumberPattern.test(phonenumber))
+    return res.status(403).json({
+      message: "Bukan nomor handphone Indonesia yang valid.",
+    });
+
+  return next();
+};
