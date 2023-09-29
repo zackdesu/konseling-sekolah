@@ -44,7 +44,7 @@ interface IProfile {
   likedPost?: ILikedPost[];
   isAdmin: boolean;
   isCounselor: boolean;
-  phonenumber?: string | null;
+  phonenumber: string | null;
 }
 
 interface ILikedPost {

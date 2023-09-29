@@ -88,6 +88,7 @@ export const postLogin = (req: Request, res: Response) => {
         img: user.img,
         isAdmin: user.isAdmin,
         isCounselor: user.isCounselor,
+        phonenumber: user.phonenumber,
       };
 
       await generateRefreshToken(res, data.id);
@@ -150,6 +151,7 @@ export const getAccount = (req: Request, res: Response) => {
               likedPost: data.likedPost,
               isAdmin: data.isAdmin,
               isCounselor: data.isCounselor,
+              phonenumber: data.phonenumber,
             };
 
             return res.status(200).json(sendData);
@@ -191,6 +193,7 @@ export const refreshUserToken = (req: Request, res: Response) => {
         img: findUser.img,
         isAdmin: findUser.isAdmin,
         isCounselor: findUser.isCounselor,
+        phonenumber: findUser.phonenumber,
       };
 
       const token = generateToken(res, data);
@@ -324,6 +327,7 @@ export const changePassword = (req: Request, res: Response) => {
               img: changePassword.img,
               isAdmin: changePassword.isAdmin,
               isCounselor: changePassword.isCounselor,
+              phonenumber: changePassword.phonenumber,
             };
 
             await generateRefreshToken(res, sendData.id);
