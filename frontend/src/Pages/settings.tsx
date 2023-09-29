@@ -1,11 +1,10 @@
 import { IconType } from "react-icons";
 import { BsPersonFill } from "react-icons/bs";
-import { connectApi, infoAcc } from "../api/api";
+import { connectApi } from "../api/api";
 import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineAdminPanelSettings } from "react-icons/md";
-import Redirectuser from "../utils/redirecthome";
 import toast from "react-hot-toast";
-import { useEffect, useState } from "react";
+import useAccContext from "../context/useAllContext";
 
 const SettingsMenu = ({
   icon: Icon,
@@ -30,16 +29,7 @@ const SettingsMenu = ({
 
 const Settings = () => {
   const navigate = useNavigate();
-  const token = Redirectuser();
-  const [user, setUser] = useState<IProfile>();
-
-  useEffect(() => {
-    if (!token) return;
-
-    infoAcc<IProfile>(token)
-      .then((res) => setUser(res))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
-  }, [token]);
+  const { user } = useAccContext();
 
   const handleLogOut = () => {
     connectApi<IAPISuccess>("/login", "delete")

@@ -16,7 +16,7 @@ const FeedPost = ({
 }: {
   data: DataPost;
   token: string;
-  user?: IProfile;
+  user: IProfile | null;
   func: (...args: never[]) => void;
 }) => {
   const [loading, setLoading] = useState(false);

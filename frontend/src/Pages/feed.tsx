@@ -1,28 +1,19 @@
 import { Link } from "react-router-dom";
 import FeedPost from "../Components/feedpost";
 import { useCallback, useEffect, useState } from "react";
-import { connectApi, infoAcc } from "../api/api";
-import Redirectuser from "../utils/redirecthome";
+import { connectApi } from "../api/api";
 import toast from "react-hot-toast";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
+import useAccContext from "../context/useAllContext";
+import Redirectuser from "../utils/redirecthome";
 
 const Feed = () => {
   const [dataPost, setDataPost] = useState<DataPost[]>([]);
   const [isExist, setIsExist] = useState(true);
-  const [user, setUser] = useState<IProfile>();
+  const { user } = useAccContext();
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const token = Redirectuser();
-
-  useEffect(() => {
-    if (!token) return;
-
-    infoAcc<IProfile>(token)
-      .then((res) => setUser(res))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
-
-    setLoading(false);
-  }, [token]);
 
   const fetchData = useCallback(() => {
     isExist &&
