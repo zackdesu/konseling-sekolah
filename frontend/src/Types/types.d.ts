@@ -43,6 +43,7 @@ interface IProfile {
   likedPost?: DataPost[];
   isAdmin: boolean;
   isCounselor: boolean;
+  phonenumber: string | null;
 }
 
 interface DataQuotes {

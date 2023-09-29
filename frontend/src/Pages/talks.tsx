@@ -18,17 +18,17 @@ const Talks = () => {
     img,
   }: {
     name: string;
-    role?: string;
-    id?: string;
-    img?: string;
+    role: string | null;
+    id: string | null;
+    img: string | null;
   }) => (
     <Link
       to={`/talks/${id}/info`}
-      className="rounded-xl bg-zinc-100 border border-zinc-200 p-5 grid grid-rows-2 grid-cols-[.6fr,_2fr]"
+      className="rounded-xl bg-zinc-100 border border-zinc-200 p-5 grid grid-rows-2 md:grid-cols-[.6fr,_2fr]"
     >
       <img
         src={img ?? "/unknown.jpg"}
-        className="rounded-full w-[40px] md:w-[60px] row-span-2 self-center"
+        className="rounded-full w-[40px] md:w-[60px] row-span-2 self-center max-md:mb-3"
       />
       <h6 className="self-end text-sm md:text-base truncate w-[250px]">
         {name}

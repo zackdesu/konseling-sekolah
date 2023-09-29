@@ -17,7 +17,10 @@ const EditAcc = () => {
       realname: user.realname,
       username: user.username,
       mbti: user.mbti,
+      phonenumber: user.phonenumber,
     };
+
+    console.log(data);
 
     connectApi<IAPISuccess>("/account", "PUT", data, {
       headers: { Authorization: `Bearer ${token}` },
@@ -74,18 +77,18 @@ const EditAcc = () => {
           setUser((prev) => prev && { ...prev, mbti: e.target.value })
         }
       />
-      <label htmlFor="mbti" className="labelinput">
-        MBTI
+      <label htmlFor="phonenumber" className="labelinput">
+        Nomor WhatsApp
       </label>
       <input
-        type="mbti"
-        id="mbti"
-        name="mbti"
+        type="phonenumber"
+        id="phonenumber"
+        name="phonenumber"
         className="userinput"
         autoComplete="off"
-        value={user.mbti ?? ""}
+        value={user.phonenumber ?? ""}
         onChange={(e) =>
-          setUser((prev) => prev && { ...prev, mbti: e.target.value })
+          setUser((prev) => prev && { ...prev, phonenumber: e.target.value })
         }
       />
       <button className="normalbutton">Submit</button>

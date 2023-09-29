@@ -353,6 +353,8 @@ export const editAccount = (req: Request, res: Response) => {
     try {
       const { realname, username, mbti, phonenumber } = req.body as IEditable;
 
+      let formattedPhoneNumber = phonenumber;
+
       const token = req.headers.authorization
         ? req.headers.authorization.split(" ")[1]
         : null;
@@ -364,6 +366,13 @@ export const editAccount = (req: Request, res: Response) => {
 
       if (!accessTokenEnv || !refreshTokenEnv || !token)
         throw res.status(404).json({ message: "Token invalid" });
+
+      if (formattedPhoneNumber) {
+        if (formattedPhoneNumber.startsWith("0"))
+          formattedPhoneNumber = "62" + formattedPhoneNumber.substring(1);
+        if (formattedPhoneNumber.startsWith("+"))
+          formattedPhoneNumber = formattedPhoneNumber.substring(1);
+      }
 
       jwt.verify(token, accessTokenEnv, (err, user) => {
         void (async () => {
@@ -381,7 +390,7 @@ export const editAccount = (req: Request, res: Response) => {
                 realname,
                 username: username.toLowerCase(),
                 mbti: mbti && mbti.toUpperCase(),
-                phonenumber,
+                phonenumber: formattedPhoneNumber,
               },
             });
 

@@ -100,7 +100,7 @@ const LandingPage = () => {
           button="Refleksi disini"
         />
       </MenuParent>
-      <MenuParent
+      {/* <MenuParent
         title="How's your day?"
         desc="Mempelajari hal-hal baru dan mengisi energi positif."
       >
@@ -123,7 +123,7 @@ const LandingPage = () => {
           desc="Tips dalam menghadapi hari-harimu"
           button="Lihat tips"
         />
-      </MenuParent>
+      </MenuParent> */}
       <Footer />
     </>
   );
