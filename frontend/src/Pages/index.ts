@@ -15,6 +15,8 @@ import EditAcc from "./editacc";
 import Options from "./options";
 import Dashboard from "./dashboard";
 import Counselor from "./counselor";
+import CounselorInfo from "./counselorinfo";
+import Reflection from "./reflection";
 // import Chat from "./chat";
 // import ListChat from "./listchat";
 export {
@@ -35,6 +37,8 @@ export {
   Options,
   Dashboard,
   Counselor,
+  CounselorInfo,
+  Reflection,
   // Chat,
   // ListChat,
 };
