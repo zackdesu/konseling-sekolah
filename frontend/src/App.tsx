@@ -3,6 +3,7 @@ import Navbar from "./Components/navbar";
 import Menu from "./Components/menu";
 import { Toaster } from "react-hot-toast";
 import { AccProvider } from "./context/accContext";
+import { Suspense, lazy } from "react";
 
 import {
   Home,
@@ -15,15 +16,16 @@ import {
   Settings,
   Feed,
   Talks,
-  Quiz,
   CreateFeed,
-  Quotes,
   EditAcc,
   Options,
-  Counselor,
-  Dashboard,
+  Reflection,
 } from "./Pages";
-import CounselorInfo from "./Pages/counselorinfo";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
+
+const Dashboard = lazy(() => import("./Pages/dashboard"));
+const CounselorInfo = lazy(() => import("./Pages/counselorinfo"));
+const Counselor = lazy(() => import("./Pages/counselor"));
 
 function App() {
   return (
@@ -122,7 +124,18 @@ function App() {
             element={
               <>
                 <Navbar />
-                <Dashboard />
+                <Suspense
+                  fallback={
+                    <>
+                      <CgSpinnerTwoAlt
+                        className="mx-auto animate-spin my-1 py-20"
+                        size={50}
+                      />
+                    </>
+                  }
+                >
+                  <Dashboard />
+                </Suspense>
                 <Menu />
               </>
             }
@@ -132,7 +145,18 @@ function App() {
             element={
               <>
                 <Navbar />
-                <Counselor />
+                <Suspense
+                  fallback={
+                    <>
+                      <CgSpinnerTwoAlt
+                        className="mx-auto animate-spin my-1 py-20"
+                        size={50}
+                      />
+                    </>
+                  }
+                >
+                  <Counselor />
+                </Suspense>
                 <Menu />
               </>
             }
@@ -147,16 +171,6 @@ function App() {
               </>
             }
             path="/feed"
-          />
-          <Route
-            element={
-              <>
-                <Navbar />
-                <Quiz />
-                <Menu />
-              </>
-            }
-            path="/quiz"
           />
           <Route
             element={
@@ -192,7 +206,18 @@ function App() {
             element={
               <>
                 <Navbar />
-                <CounselorInfo />
+                <Suspense
+                  fallback={
+                    <>
+                      <CgSpinnerTwoAlt
+                        className="mx-auto animate-spin my-1 py-20"
+                        size={50}
+                      />
+                    </>
+                  }
+                >
+                  <CounselorInfo />
+                </Suspense>
                 <Menu />
               </>
             }
@@ -202,21 +227,11 @@ function App() {
             element={
               <>
                 <Navbar />
-                <CounselorInfo />
+                <Reflection />
                 <Menu />
               </>
             }
-            path="/talks/:id/info"
-          />
-          <Route
-            element={
-              <>
-                <Navbar />
-                <Quotes />
-                <Menu />
-              </>
-            }
-            path="/quotes"
+            path="/reflection"
           />
           <Route
             element={
