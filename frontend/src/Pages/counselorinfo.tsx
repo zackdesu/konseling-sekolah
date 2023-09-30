@@ -15,8 +15,8 @@ const CounselorInfo = () => {
   if (!data) return;
 
   return (
-    <div className="pt-24 mx-10">
-      <div className="grid grid-flow-col grid-cols-[.4fr,2fr,1fr] grid-rows-2">
+    <div className="pt-24 mx-10 md:mx-20">
+      <div className="grid grid-flow-col grid-cols-[.4fr,2fr,1fr] grid-rows-2 md:mx-5">
         <img
           src="/unknown.jpg"
           className="w-[120px] rounded-full row-span-2 self-center"
