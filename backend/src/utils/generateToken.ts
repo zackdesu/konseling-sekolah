@@ -25,7 +25,7 @@ export const generateRefreshToken = async (res: Response, id: string) => {
   res.cookie("refreshtoken", token, {
     httpOnly: true,
     secure: !isDev,
-    sameSite: isDev ? false : "strict",
+    sameSite: isDev ? false : "none",
     maxAge: 1000 * 60 * 60 * 24 * 30,
   });
 
