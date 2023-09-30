@@ -54,6 +54,10 @@ const LandingPage = () => {
     setQuote(QuotesData[mathRandom]);
   }, [Quote, setQuote]);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <>
       <div className="pt-20 flex flex-col items-center justify-center h-full overflow-y-auto">
