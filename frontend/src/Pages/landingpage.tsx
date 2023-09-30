@@ -24,6 +24,7 @@ const LandingPage = () => {
           src={`/${img}.svg`}
           alt={img}
           className="w-full max-lg:w-[236px] h-[155px] lg:h-[296px]"
+          loading="lazy"
         />
         <h5 className="mx-3">{title}</h5>
         <p className="mx-3 text-zinc-400 text-sm">{desc}</p>
@@ -60,6 +61,7 @@ const LandingPage = () => {
           src="/therapy.svg"
           alt="therapy"
           className="w-[300px] md:w-[360px]"
+          loading="lazy"
         />
         <h1>{import.meta.env.VITE_PRODUCT_NAME}</h1>
         <p className="text-zinc-600 text-center w-[90%]">
@@ -98,6 +100,7 @@ const LandingPage = () => {
           title="Refleksi Diri"
           desc="Refleksi dirimu disini"
           button="Refleksi disini"
+          href="/reflection"
         />
       </MenuParent>
       {/* <MenuParent
