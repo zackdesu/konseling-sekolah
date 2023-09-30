@@ -8,7 +8,9 @@
     "dev": "ts-node-dev -T src/server.ts",
     "lint": "eslint . --ext ts,tsx --max-warnings 0",
     "prebuild": "tsc",
-    "build": "node dist/server.js"
+    "build": "node dist/server.js",
+    "vercel-build": "prisma generate",
+    "prevercel-build": "prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
