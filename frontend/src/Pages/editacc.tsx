@@ -1,12 +1,14 @@
-import { FormEvent } from "react";
+import { FormEvent, useState } from "react";
 import Redirectuser from "../utils/redirecthome";
 import toast from "react-hot-toast";
 import { connectApi } from "../api/api";
 import useAccContext from "../context/useAllContext";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 const EditAcc = () => {
   const { user, setUser } = useAccContext();
   const token = Redirectuser();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,13 +22,14 @@ const EditAcc = () => {
       phonenumber: user.phonenumber,
     };
 
-    console.log(data);
+    setLoading(true);
 
     connectApi<IAPISuccess>("/account", "PUT", data, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => toast.success(res.message))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message))
+      .finally(() => setLoading(false));
   };
 
   if (!user) return;
@@ -91,7 +94,14 @@ const EditAcc = () => {
           setUser((prev) => prev && { ...prev, phonenumber: e.target.value })
         }
       />
-      <button className="normalbutton">Submit</button>
+      <button className="normalbutton">
+        {" "}
+        {loading ? (
+          <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" />
+        ) : (
+          "Submit"
+        )}
+      </button>
     </form>
   );
 };

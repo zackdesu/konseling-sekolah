@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { connectApi } from "../api/api";
 import toast from "react-hot-toast";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 const Talks = () => {
   const [data, setData] = useState<ICounselor[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     connectApi<ICounselor[]>("/counselors")
       .then((res) => setData(res))
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message))
+      .finally(() => setLoading(true));
   }, []);
 
   const Card = ({
@@ -40,9 +43,13 @@ const Talks = () => {
   return (
     <div className="py-20 flex flex-col items-center">
       <h2 className="my-5">Pilih konselormu</h2>
-      {data.map((e, i) => (
-        <Card name={e.realname} role={e.role} img={e.img} key={i} id={e.id} />
-      ))}
+      {loading ? (
+        <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" size={50} />
+      ) : (
+        data.map((e, i) => (
+          <Card name={e.realname} role={e.role} img={e.img} key={i} id={e.id} />
+        ))
+      )}
     </div>
   );
 };
