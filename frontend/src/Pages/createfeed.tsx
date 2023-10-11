@@ -4,6 +4,7 @@ import { api, connectApi, postThePosts, refreshAcc } from "../api/api";
 import { useNavigate, useParams } from "react-router-dom";
 import { AxiosResponse } from "axios";
 import toast from "react-hot-toast";
+import { CgSpinnerTwoAlt } from "react-icons/cg";
 
 const CreateFeed = () => {
   Redirectuser();
@@ -12,7 +13,7 @@ const CreateFeed = () => {
   const isPrivate = useRef<HTMLInputElement>(null);
   const isAnonym = useRef<HTMLInputElement>(null);
   const [token, setToken] = useState<string>("");
-
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [data, setData] = useState<DataPost>();
 
@@ -30,6 +31,7 @@ const CreateFeed = () => {
   }, []);
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLoading(true);
     const currentPost = post.current;
     const currentPrivate = isPrivate.current;
     const currentAnonym = isAnonym.current;
@@ -51,7 +53,8 @@ const CreateFeed = () => {
           toast.success(res.data.message);
           navigate("/feed");
         })
-        .catch((err: IAPIError) => toast.error(err.response.data.message));
+        .catch((err: IAPIError) => toast.error(err.response.data.message))
+        .finally(() => setLoading(false));
       return false;
     }
     postThePosts<IAPISuccess>(data, token)
@@ -59,7 +62,8 @@ const CreateFeed = () => {
         toast.success(res.message);
         navigate("/feed");
       })
-      .catch((err: IAPIError) => toast.error(err.response.data.message));
+      .catch((err: IAPIError) => toast.error(err.response.data.message))
+      .finally(() => setLoading(false));
   };
 
   return (
@@ -113,8 +117,18 @@ const CreateFeed = () => {
           </div>
         </div>
 
-        <button type="submit" className="normalbutton">
-          {id ? "Edit postingan" : "Buat Postingan"}
+        <button
+          type="submit"
+          className="normalbutton w-[157px]"
+          disabled={loading}
+        >
+          {loading ? (
+            <CgSpinnerTwoAlt className="mx-auto animate-spin my-1" />
+          ) : id ? (
+            "Edit postingan"
+          ) : (
+            "Buat Postingan"
+          )}
         </button>
       </form>
     </div>
