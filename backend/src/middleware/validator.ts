@@ -24,7 +24,7 @@ export const isRealNameValid = (
 ) => {
   const { realname } = req.body as { realname: string };
 
-  const validRealNamePattern = /^[a-zA-Z\s]+$/;
+  const validRealNamePattern = /^[a-zA-Z\s.,]+$/;
 
   if (!validRealNamePattern.test(realname))
     return res.status(403).json({
