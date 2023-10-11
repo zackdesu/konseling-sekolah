@@ -66,7 +66,7 @@ const EditAcc = () => {
           setUser((prev) => prev && { ...prev, username: e.target.value })
         }
       />
-      <label htmlFor="mbti" className="labelinput">
+      <label htmlFor="mbti" className="labelinput2">
         MBTI
       </label>
       <input
