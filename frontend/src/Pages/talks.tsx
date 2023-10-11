@@ -27,7 +27,7 @@ const Talks = () => {
   }) => (
     <Link
       to={`/talks/${id}/info`}
-      className="rounded-xl bg-zinc-100 border border-zinc-200 p-5 grid grid-rows-2 md:grid-cols-[.6fr,_2fr]"
+      className="rounded-xl bg-zinc-100 border border-zinc-200 p-5 grid grid-rows-2 md:grid-cols-[.6fr,_2fr] my-5"
     >
       <img
         src={img ?? "/unknown.jpg"}
