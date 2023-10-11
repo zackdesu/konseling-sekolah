@@ -21,7 +21,13 @@ const Feed = () => {
         connectApi<DataPost[]>("/post", "GET", "", { params: { page } })
           .then((res) => {
             if (res.length === 0) return setIsExist(false);
-            setDataPost((prev) => [...prev, ...res]);
+            setDataPost((prev) => {
+              const newPosts = res.filter(
+                (newPost) =>
+                  !prev.some((prevPost) => prevPost.id === newPost.id)
+              );
+              return [...prev, ...newPosts];
+            });
           })
           .catch((err: IAPIError) => toast.error(err.response.data.message))
           .finally(() => setLoading(false));
