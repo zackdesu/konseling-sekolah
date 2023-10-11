@@ -127,7 +127,7 @@ const FeedPost = ({
       : Math.floor(parseTime / (1000 * 60 * 60)) + " jam yang lalu";
 
   const DeleteModal = () => (
-    <div className="bg-[rgba(0,0,0,.6)] fixed top-0 right-0 left-0 bottom-0 pt-20 z-10 flex items-center justify-items-center">
+    <div className="bg-[rgba(0,0,0,.6)] fixed top-0 right-0 left-0 bottom-0 pt-20 z-10">
       <div className="w-[500px] bg-zinc-100 flex flex-col items-center p-5 rounded-xl">
         <h5>Apakah kamu yakin ingin menghapus postingan ini?</h5>
         <div>
