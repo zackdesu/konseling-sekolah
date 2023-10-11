@@ -5,13 +5,13 @@ import toast from "react-hot-toast";
 import { CgSpinnerTwoAlt } from "react-icons/cg";
 const Talks = () => {
   const [data, setData] = useState<ICounselor[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     connectApi<ICounselor[]>("/counselors")
       .then((res) => setData(res))
       .catch((err: IAPIError) => toast.error(err.response.data.message))
-      .finally(() => setLoading(true));
+      .finally(() => setLoading(false));
   }, []);
 
   const Card = ({
@@ -27,7 +27,7 @@ const Talks = () => {
   }) => (
     <Link
       to={`/talks/${id}/info`}
-      className="rounded-xl bg-zinc-100 border border-zinc-200 p-5 grid grid-rows-2 md:grid-cols-[.6fr,_2fr] my-5"
+      className="rounded-xl bg-zinc-100 border border-zinc-200 p-5 grid grid-rows-2 md:grid-cols-[.6fr,_2fr] my-2"
     >
       <img
         src={img ?? "/unknown.jpg"}
